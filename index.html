@@ -4,36 +4,47 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Live Calculator</title>
+        <title>SIF Live Calculator</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-filestyle.min.js"></script>
+        <script src="js/main.js"></script>
     </head>
 
     <body>
         <div class="jumbotron">
             <div class="container">
                 <nav class="navbar navbar-default navbar-static-top" style="background-color: #fff" role="navigation">
-                    <a class="navbar-brand" href="#"><span class="text-center">スクフェス Live 分数计算</span></a>
+                    <a class="navbar-brand" href="#"><span class="text-center">スクフェス Live Calculator</span></a>
                 </nav>
                 <div class="row" id="selectSongText">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <h2 class="text-center">选择歌曲</h2>
+                        <h2 class="text-center">Choose Live</h2>
                     </div>
                 </div>
 
                 <div class="row">
-
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <select name="live" id="liveList" class="form-control" required="required" onchange="changeSelectColor()"></select>
+                        <div style="margin-bottom: 10px">
+                            <select name="live" id="liveList" class="form-control" required="required" onchange="changeSelectColor()"></select>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus" style="color: green"></span>
+                            </button>
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-minus" style="color: red"></span>
+                        </button>
+                        </div>
                     </div>
 
-                    <div class="col-xs-12  col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                         <div class="well well-sm" style="padding-top: 0px; padding-bottom: 0px;">
-                            <h3>过滤器</h3>
+                            <h3>Filter</h3>
                             <div class="well well-sm" style="padding-top: 0px">
-                                <h4>演唱者</h4>
+                                <h4>Artist</h4>
                                 <input id="muse" class="checkbox-custom" type="checkbox" checked onclick="updateLiveList()">
                                 <label for="muse" class="checkbox-custom-label">μ's</label>
 
@@ -42,7 +53,7 @@
                             </div>
 
                             <div class="well well-sm" style="padding-top: 0px">
-                                <h4>歌曲属性</h4>
+                                <h4>Attribute</h4>
                                 <input id="smile" class="checkbox-custom" type="checkbox" checked onclick="updateLiveList()">
                                 <label for="smile" class="checkbox-custom-label"><span style="color: #E91E63">Smile</span></label>
 
@@ -54,7 +65,7 @@
                             </div>
 
                             <div class="well well-sm" style="padding-top: 0px">
-                                <h4>歌曲难度</h4>
+                                <h4>Difficulty</h4>
                                 <input id="easy" class="checkbox-custom" type="checkbox" onclick="updateLiveList()">
                                 <label for="easy" class="checkbox-custom-label">EASY</label>
 
@@ -71,167 +82,43 @@
                                 <label for="master" class="checkbox-custom-label">MASTER</label>
                             </div>
                         </div>
+
                     </div>
                 </div>
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input id="openFile" type="file" class="filestyle" accept=".sd">
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="text-center">
+                            <button class="btn btn-default" onclick="loadFile()">Load file</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="calculate()">Calculate</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <h3>Result</h3>
+                            </div>
+                            <div class="panel-footer">
+                                <p id="result">result</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
     </body>
 
 </html>
-<script>
-    var mapsJson;
-    var liveList = new Array();
-    var colorIndex = {
-        1: "#E91E63",
-        2: "#4CAF50",
-        3: "#2196F3"
-    }
-    $.ajaxSettings.async = false;
-    $.getJSON("https://raw.githubusercontent.com/iebb/SIFMaps/master/maps.json",
-        function(json) {
-            mapsJson = json;
-        })
-
-    initLiveList();
-    updateLiveList();
-
-    //
-    function initLiveList() {
-        //Sort live by live_track_id and difficulty
-        mapsJson = mapsJson.sort(function(x, y) {
-            if (x.live_track_id !== y.live_track_id) {
-                return x.live_track_id - y.live_track_id;
-            } else {
-                return x.difficulty - y.difficulty;
-            }
-        });
-        //Generate liveList
-        for (var i = 0; i < mapsJson.length; i++) {
-            var currentLive = mapsJson[i];
-            if (currentLive.difficulty === 5) {
-                continue;
-            }
-            var liveTag = new Object();
-            liveTag.name = currentLive.name;
-            liveTag.attribute_icon_id = currentLive.attribute_icon_id;
-            liveTag.member_category = currentLive.member_category;
-            liveTag.difficulty_text = currentLive.difficulty_text;
-            liveTag.live_setting_id = currentLive.live_setting_id;
-            liveList.push(liveTag);
-        }
-    }
-
-    function updateLiveList() {
-        var aqoursChecked = document.getElementById("aqours").checked;
-        var museChecked = document.getElementById("muse").checked;
-        var smileChecked = document.getElementById("smile").checked;
-        var pureChecked = document.getElementById("pure").checked;
-        var coolChecked = document.getElementById("cool").checked;
-        var easyChecked = document.getElementById("easy").checked;
-        var normalChecked = document.getElementById("normal").checked;
-        var hardChecked = document.getElementById("hard").checked;
-        var expertChecked = document.getElementById("expert").checked;
-        var masterChecked = document.getElementById("master").checked;
-
-        var lives = document.getElementById('liveList');
-        var selectedLive = lives.options[lives.selectedIndex];
-        if (selectedLive !== undefined) {
-            var selectedLiveName = lives.options[lives.selectedIndex].text;
-            var selectedLiveId = lives.options[lives.selectedIndex].value;
-        }
-        lives.options.length = 0;
-
-        for (var i = 0; i < liveList.length; i++) {
-            var currentLive = liveList[i];
-            switch (currentLive.member_category) {
-                case 1:
-                    if (!museChecked) {
-                        continue;
-                    }
-                    break;
-                case 2:
-                    if (!aqoursChecked) {
-                        continue;
-                    }
-                    break;
-            }
-
-            switch (currentLive.attribute_icon_id) {
-                case 1:
-                    if (!smileChecked) {
-                        continue;
-                    }
-                    break;
-                case 2:
-                    if (!pureChecked) {
-                        continue;
-                    }
-                    break;
-                case 3:
-                    if (!coolChecked) {
-                        continue;
-                    }
-                    break;
-            }
-
-            switch (currentLive.difficulty_text) {
-                case "EASY":
-                    if (!easyChecked) {
-                        continue;
-                    }
-                    break;
-                case "NORMAL":
-                    if (!normalChecked) {
-                        continue;
-                    }
-                    break;
-                case "HARD":
-                    if (!hardChecked) {
-                        continue;
-                    }
-                    break;
-                case "EXPERT":
-                    if (!expertChecked) {
-                        continue;
-                    }
-                    break;
-                case "MASTER":
-                    if (!masterChecked) {
-                        continue;
-                    }
-                    break;
-            }
-            lives.options.add(new Option(currentLive.name + " [" + currentLive.difficulty_text + "]", currentLive.live_setting_id));
-            lives[lives.options.length - 1].style.color = colorIndex[currentLive.attribute_icon_id];
-            if (currentLive.live_setting_id == selectedLiveId) {
-                lives[lives.options.length - 1].selected = true;
-                lives[lives.options.length - 1]
-            }
-        }
-        changeSelectColor();
-    }
-
-    function changeSelectColor() {
-        var lives = document.getElementById('liveList');
-        var selectedLive = lives.options[lives.selectedIndex];
-        if (selectedLive !== undefined) {
-            lives.style.color = selectedLive.style.color;
-        }
-    }
-    /*
-    $.ajax({
-        url: "https://db.loveliv.es/live/info/1",
-        type: "GET",
-        dataType: "jsonp",
-        success: function(data) {
-            alert(data);
-        }
-    })
-    
-    var htmlObj = $.ajax({
-        url: "https://db.loveliv.es/live/info/1",
-        async: false
-    });
-    console.log(htmlObj.responseText);
-    */
-</script>
