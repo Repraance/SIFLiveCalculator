@@ -1,8 +1,10 @@
 $(document).ready(function() {
     loadMapsJSON();
     initLiveList();
-    updateLiveList();
+    updateLiveLists();
     loadJSONs();
+    $("#liveList2Frame").hide();
+    $("#liveList3Frame").hide();
 })
 
 var mapsJson;
@@ -24,7 +26,7 @@ var unit_type_member_tag_m_url = "https://raw.githubusercontent.com/Repraance/SI
 
 function loadMapsJSON() {
     $.ajaxSettings.async = false;
-    $.getJSON("https://raw.githubusercontent.com/iebb/SIFMaps/master/maps.json",
+    $.getJSON("https://raw.githubusercontent.com/iebb/SIFMaps/master/maps.min.json",
         function(json) {
             mapsJson = json;
         })
@@ -65,7 +67,7 @@ function loadJSONs() {
 
 
 function initLiveList() {
-    //Sort live by live_track_id and difficulty
+    // Sort live by live_track_id and difficulty
     mapsJson = mapsJson.sort(function(x, y) {
         if (x.live_track_id !== y.live_track_id) {
             return x.live_track_id - y.live_track_id;
@@ -73,7 +75,7 @@ function initLiveList() {
             return x.difficulty - y.difficulty;
         }
     });
-    //Generate liveList
+    // Generate liveList
     for (var i = 0; i < mapsJson.length; i++) {
         var currentLive = mapsJson[i];
         if (currentLive.difficulty === 5) {
@@ -89,7 +91,19 @@ function initLiveList() {
     }
 }
 
-function updateLiveList() {
+function updateLiveLists() {
+    if (document.getElementById('liveList1')) {
+        updateLiveList('liveList1');
+    }
+    if (document.getElementById('liveList2')) {
+        updateLiveList('liveList2');
+    }
+    if (document.getElementById('liveList3')) {
+        updateLiveList('liveList3');
+    }
+}
+
+function updateLiveList(id) {
     var aqoursChecked = document.getElementById("aqours").checked;
     var museChecked = document.getElementById("muse").checked;
     var smileChecked = document.getElementById("smile").checked;
@@ -101,7 +115,7 @@ function updateLiveList() {
     var expertChecked = document.getElementById("expert").checked;
     var masterChecked = document.getElementById("master").checked;
 
-    var lives = document.getElementById('liveList');
+    var lives = document.getElementById(id);
     var selectedLive = lives.options[lives.selectedIndex];
     if (selectedLive !== undefined) {
         var selectedLiveName = lives.options[lives.selectedIndex].text;
@@ -176,11 +190,23 @@ function updateLiveList() {
             lives[lives.options.length - 1]
         }
     }
-    changeSelectColor();
+    changeSelectColors();
 }
 
-function changeSelectColor() {
-    var lives = document.getElementById('liveList');
+function changeSelectColors() {
+    if (document.getElementById('liveList1')) {
+        changeSelectColor('liveList1');
+    }
+    if (document.getElementById('liveList2')) {
+        changeSelectColor('liveList2');
+    }
+    if (document.getElementById('liveList3')) {
+        changeSelectColor('liveList3');
+    }
+}
+
+function changeSelectColor(id) {
+    var lives = document.getElementById(id);
     var selectedLive = lives.options[lives.selectedIndex];
     if (selectedLive !== undefined) {
         lives.style.color = selectedLive.style.color;
@@ -191,17 +217,82 @@ function loadFile() {
     var resultFile = document.getElementById("openFile").files[0];
     if (resultFile) {
         var reader = new FileReader();
-
         reader.readAsText(resultFile, 'UTF-8');
         reader.onload = function(e) {
             var data = this.result;
             teamInfo = JSON.parse(data);
-            console.log(teamInfo);
-            document.getElementById("result").innerHTML = teamInfo[0].smile;
+            setTeamInfo();
         };
     } else {
         alert("No file chosen!");
     }
+}
+
+function findJSON(json, key, value) {
+    var returns = new Array();
+    if (key instanceof Array) {
+        if (key.length == value.length) {
+            for (var i = 0; i < json.length; i++) {
+                for (var j = 0; j < key.length; j++) {
+                    if (json[i][key[j]] == value[j]) {
+                        returns.push(json[i]);
+                    }
+                }
+            }
+        }
+    } else {
+        for (var i = 0; i < json.length; i++) {
+            if (json[i][key] == value) {
+                returns.push(json[i]);
+            }
+        }
+    }
+    if (returns.length == 0) {
+        return null;
+    }
+    return returns;
+}
+
+function setTeamInfo() {
+    // Get the leader skill info
+    // and save it at teamInfo[9]
+    var leader = teamInfo[4];
+    var leaderSkillInfo;
+    var leaderSkillExtraInfo;
+    var leader_unit_id = leader.cardid;
+    var leader_skill_id;
+
+    teamInfo.push({
+        "leaderSkillInfo": null,
+        "leaderSkillExtraInfo": null
+    });
+    leader_skill_id = findJSON(unit_m, "unit_number", leader_unit_id)[0].default_leader_skill_id;
+    if (leader_skill_id != null) {
+        leaderSkillInfo = findJSON(unit_leader_skill_m, "unit_leader_skill_id", leader_skill_id)[0];
+
+        if (leaderSkillInfo != null) {
+            leaderSkillExtraInfo = findJSON(unit_leader_skill_extra_m, "unit_leader_skill_id", leader_skill_id)[0];
+            teamInfo[9].leaderSkillInfo = leaderSkillInfo;
+            teamInfo[9].leaderSkillExtraInfo = leaderSkillExtraInfo;
+        }
+    }
+
+    // Get Aura/Veil school idol skills info (effect on the whole team)
+    // and save it at teamInfo[9]
+    teamInfo[9].gemallpercent = new Array();
+    for (var i = 0; i < 9; i++) {
+        teamInfo[9].gemallpercent.push(teamInfo[i].gemallpercent);
+    }
+
+    // Get member info
+    for (var i = 0; i < 9; i++) {
+        var unit_id = teamInfo[i].cardid;
+        var skill_id;
+        var cardInfo = findJSON(unit_m, "unit_number", teamInfo[i].cardid)[0];
+        $.extend(teamInfo[i], cardInfo);
+    }
+    console.log(teamInfo);
+
 }
 
 function calculate() {
@@ -209,13 +300,84 @@ function calculate() {
     var selectedLive = lives.options[lives.selectedIndex];
     if (selectedLive == undefined) {
         alert("No live chosen!");
+        return -1;
     } else if (teamInfo == undefined) {
-        alert("No team info loaded!")
+        // alert("No team info loaded!")
+        // return -2;
     }
-    console.log(unit_leader_skill_extra_m[0]);
-    console.log(unit_leader_skill_m[0]);
-    console.log(unit_skill_level_m[0]);
-    console.log(unit_skill_m[0]);
-    console.log(unit_type_member_tag_m[0]);
-    console.log(unit_m[0]);
+
+    var liveId = selectedLive.value;
+    var liveInfo;
+    var liveNotes;
+    var sliderCount = 0;
+    for (var i = 0; i < mapsJson.length; i++) {
+        // name attribute_icon_id member_category difficulty_text live_setting_id
+        if (mapsJson[i].live_setting_id == liveId) {
+            liveInfo = mapsJson[i];
+            $.ajaxSettings.async = false;
+            $.getJSON("https://raw.githubusercontent.com/iebb/SIFMaps/master/latest/" + liveInfo.notes_setting_asset,
+                function(json) {
+                    liveNotes = json;
+                })
+            break;
+        }
+    }
+
+    var liveNoteCount = liveNotes.length;
+    for (var i = 0; i < liveNoteCount; i++) {
+        liveNotes[i].timing_sec = parseInt(liveNotes[i].timing_sec * 1000);
+        // slider
+        if (liveNotes[i].effect == 3) {
+            sliderCount++;
+            liveNotes[i].effect_value = parseInt(liveNotes[i].effect_value * 1000);
+            var sliderEnding = JSON.parse(JSON.stringify(liveNotes[i]));
+            sliderEnding.effect_value = liveNotes[i].timing_sec;
+            sliderEnding.timing_sec = liveNotes[i].timing_sec + liveNotes[i].effect_value + 1;
+            liveNotes.push(sliderEnding);
+        }
+    }
+
+    var noteIndex = 0;
+    for (var i = 0; i < 120000; i++) {
+        while (liveNotes[noteIndex].timing_sec == i) {
+            if (noteIndex == liveNotes.length - 1) {
+                break;
+            }
+            noteIndex++;
+            console.log(i);
+        }
+    }
+    console.log(sliderCount);
+
+}
+
+function addLiveList() {
+    // liveList3 is hidden
+    if ($("#liveList3").is(":hidden")) {
+
+        // liveList2 exists
+        if (!$("#liveList2").is(":hidden")) {
+
+            // show liveList3
+            $("#liveList3Frame").show();
+            $("#addLiveList").hide();
+            updateLiveLists();
+
+            // Only liveList1 exists    
+        } else {
+            $("#liveList2Frame").show();
+            $("#removeLiveList").show();
+            updateLiveLists();
+        }
+    }
+}
+
+function removeLiveList() {
+    if (!$("#liveList3").is(":hidden")) {
+        $("#liveList3Frame").hide();
+        $("#addLiveList").show();
+    } else if (!$("#liveList2").is(":hidden")) {
+        $("#liveList2Frame").hide();
+        $("#removeLiveList").hide();
+    }
 }
