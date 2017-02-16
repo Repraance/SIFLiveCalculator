@@ -92,14 +92,14 @@ function initLiveList() {
 }
 
 function updateLiveLists() {
-    if (document.getElementById('liveList1')) {
-        updateLiveList('liveList1');
+    if (document.getElementById("liveList1")) {
+        updateLiveList("liveList1");
     }
-    if (document.getElementById('liveList2')) {
-        updateLiveList('liveList2');
+    if (document.getElementById("liveList2")) {
+        updateLiveList("liveList2");
     }
-    if (document.getElementById('liveList3')) {
-        updateLiveList('liveList3');
+    if (document.getElementById("liveList3")) {
+        updateLiveList("liveList3");
     }
 }
 
@@ -194,14 +194,14 @@ function updateLiveList(id) {
 }
 
 function changeSelectColors() {
-    if (document.getElementById('liveList1')) {
-        changeSelectColor('liveList1');
+    if (document.getElementById("liveList1")) {
+        changeSelectColor("liveList1");
     }
-    if (document.getElementById('liveList2')) {
-        changeSelectColor('liveList2');
+    if (document.getElementById("liveList2")) {
+        changeSelectColor("liveList2");
     }
-    if (document.getElementById('liveList3')) {
-        changeSelectColor('liveList3');
+    if (document.getElementById("liveList3")) {
+        changeSelectColor("liveList3");
     }
 }
 
@@ -217,7 +217,7 @@ function loadFile() {
     var resultFile = document.getElementById("openFile").files[0];
     if (resultFile) {
         var reader = new FileReader();
-        reader.readAsText(resultFile, 'UTF-8');
+        reader.readAsText(resultFile, "UTF-8");
         reader.onload = function(e) {
             var data = this.result;
             teamInfo = JSON.parse(data);
@@ -228,14 +228,19 @@ function loadFile() {
     }
 }
 
+// Return records in JSON that contains {key: value}
 function findJSON(json, key, value) {
     var returns = new Array();
     if (key instanceof Array) {
         if (key.length == value.length) {
             for (var i = 0; i < json.length; i++) {
                 for (var j = 0; j < key.length; j++) {
-                    if (json[i][key[j]] == value[j]) {
-                        returns.push(json[i]);
+                    if (json[i][key[j]] != value[j]) {
+                        break;
+                    } else {
+                        if (j == key.length - 1) {
+                            returns.push(json[i]);
+                        }
                     }
                 }
             }
@@ -247,15 +252,12 @@ function findJSON(json, key, value) {
             }
         }
     }
-    if (returns.length == 0) {
-        return null;
-    }
     return returns;
 }
 
 function setTeamInfo() {
     // Get the leader skill info
-    // and save it at teamInfo[9]
+    // and save it into teamInfo[9]
     var leader = teamInfo[4];
     var leaderSkillInfo;
     var leaderSkillExtraInfo;
@@ -263,14 +265,14 @@ function setTeamInfo() {
     var leader_skill_id;
 
     teamInfo.push({
-        "leaderSkillInfo": null,
-        "leaderSkillExtraInfo": null
+        "leaderSkillInfo": undefined,
+        "leaderSkillExtraInfo": undefined
     });
     leader_skill_id = findJSON(unit_m, "unit_number", leader_unit_id)[0].default_leader_skill_id;
-    if (leader_skill_id != null) {
+    if (leader_skill_id != undefined) {
         leaderSkillInfo = findJSON(unit_leader_skill_m, "unit_leader_skill_id", leader_skill_id)[0];
 
-        if (leaderSkillInfo != null) {
+        if (leaderSkillInfo != undefined) {
             leaderSkillExtraInfo = findJSON(unit_leader_skill_extra_m, "unit_leader_skill_id", leader_skill_id)[0];
             teamInfo[9].leaderSkillInfo = leaderSkillInfo;
             teamInfo[9].leaderSkillExtraInfo = leaderSkillExtraInfo;
@@ -278,7 +280,7 @@ function setTeamInfo() {
     }
 
     // Get Aura/Veil school idol skills info (effect on the whole team)
-    // and save it at teamInfo[9]
+    // and save it into teamInfo[9]
     teamInfo[9].gemallpercent = new Array();
     for (var i = 0; i < 9; i++) {
         teamInfo[9].gemallpercent.push(teamInfo[i].gemallpercent);
@@ -287,16 +289,30 @@ function setTeamInfo() {
     // Get member info
     for (var i = 0; i < 9; i++) {
         var unit_id = teamInfo[i].cardid;
-        var skill_id;
         var cardInfo = findJSON(unit_m, "unit_number", teamInfo[i].cardid)[0];
         $.extend(teamInfo[i], cardInfo);
+
+        // Get skill info
+        var skill_info = findJSON(unit_skill_m, "unit_skill_id", teamInfo[i].default_unit_skill_id)[0];
+        $.extend(skill_info, findJSON(unit_skill_level_m, ["unit_skill_id", "skill_level"], [teamInfo[i].default_unit_skill_id, teamInfo[i].skilllevel])[0]);
+        teamInfo[i].skill_info = skill_info;
+
+        // Get member tag 
+        var member_tag = new Array();
+        var member_tag_temp = findJSON(unit_type_member_tag_m, "unit_type_id", teamInfo[i].unit_type_id);
+        if (member_tag_temp.length > 1) {
+            for (var j = 0; j < member_tag_temp.length; j++) {
+                member_tag.push(member_tag_temp[j].member_tag_id);
+            }
+        }
+        teamInfo[i].member_tag = member_tag;
     }
     console.log(teamInfo);
 
 }
 
 function calculate() {
-    var lives = document.getElementById('liveList');
+    var lives = document.getElementById("liveList");
     var selectedLive = lives.options[lives.selectedIndex];
     if (selectedLive == undefined) {
         alert("No live chosen!");
