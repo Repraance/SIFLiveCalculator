@@ -3,8 +3,8 @@ $(document).ready(function() {
     initLiveList();
     updateLiveLists();
     loadJSONs();
-    $("#liveList2Frame").hide();
-    $("#liveList3Frame").hide();
+    $('#liveList2Frame').hide();
+    $('#liveList3Frame').hide();
 })
 
 var mapsJson;
@@ -12,21 +12,27 @@ var unit_m;
 var liveList = new Array();
 var teamInfo;
 var colorIndex = {
-    1: "#E91E63",
-    2: "#4CAF50",
-    3: "#2196F3"
+    1: '#E91E63',
+    2: '#4CAF50',
+    3: '#2196F3'
 }
 
-var unit_leader_skill_extra_m_url = "https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_leader_skill_extra_m.json";
-var unit_leader_skill_m_url = "https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_leader_skill_m.json";
-var unit_m_url = "https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_m.json";
-var unit_skill_level_m_url = "https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_skill_level_m.json";
-var unit_skill_m_url = "https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_skill_m.json";
-var unit_type_member_tag_m_url = "https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_type_member_tag_m.json";
+var attributeIndex = {
+    1: 'smile',
+    2: 'pure',
+    3: 'cool'
+}
+
+var unit_leader_skill_extra_m_url = 'https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_leader_skill_extra_m.json';
+var unit_leader_skill_m_url = 'https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_leader_skill_m.json';
+var unit_m_url = 'https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_m.json';
+var unit_skill_level_m_url = 'https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_skill_level_m.json';
+var unit_skill_m_url = 'https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_skill_m.json';
+var unit_type_member_tag_m_url = 'https://raw.githubusercontent.com/Repraance/SIFCardManager/master/data/json/unit_type_member_tag_m.json';
 
 function loadMapsJSON() {
     $.ajaxSettings.async = false;
-    $.getJSON("https://raw.githubusercontent.com/iebb/SIFMaps/master/maps.min.json",
+    $.getJSON('https://raw.githubusercontent.com/iebb/SIFMaps/master/maps.min.json',
         function(json) {
             mapsJson = json;
         })
@@ -92,28 +98,28 @@ function initLiveList() {
 }
 
 function updateLiveLists() {
-    if (document.getElementById("liveList1")) {
-        updateLiveList("liveList1");
+    if (document.getElementById('liveList1')) {
+        updateLiveList('liveList1');
     }
-    if (document.getElementById("liveList2")) {
-        updateLiveList("liveList2");
+    if (document.getElementById('liveList2')) {
+        updateLiveList('liveList2');
     }
-    if (document.getElementById("liveList3")) {
-        updateLiveList("liveList3");
+    if (document.getElementById('liveList3')) {
+        updateLiveList('liveList3');
     }
 }
 
 function updateLiveList(id) {
-    var aqoursChecked = document.getElementById("aqours").checked;
-    var museChecked = document.getElementById("muse").checked;
-    var smileChecked = document.getElementById("smile").checked;
-    var pureChecked = document.getElementById("pure").checked;
-    var coolChecked = document.getElementById("cool").checked;
-    var easyChecked = document.getElementById("easy").checked;
-    var normalChecked = document.getElementById("normal").checked;
-    var hardChecked = document.getElementById("hard").checked;
-    var expertChecked = document.getElementById("expert").checked;
-    var masterChecked = document.getElementById("master").checked;
+    var aqoursChecked = document.getElementById('aqours').checked;
+    var museChecked = document.getElementById('muse').checked;
+    var smileChecked = document.getElementById('smile').checked;
+    var pureChecked = document.getElementById('pure').checked;
+    var coolChecked = document.getElementById('cool').checked;
+    var easyChecked = document.getElementById('easy').checked;
+    var normalChecked = document.getElementById('normal').checked;
+    var hardChecked = document.getElementById('hard').checked;
+    var expertChecked = document.getElementById('expert').checked;
+    var masterChecked = document.getElementById('master').checked;
 
     var lives = document.getElementById(id);
     var selectedLive = lives.options[lives.selectedIndex];
@@ -157,33 +163,33 @@ function updateLiveList(id) {
         }
 
         switch (currentLive.difficulty_text) {
-            case "EASY":
+            case 'EASY':
                 if (!easyChecked) {
                     continue;
                 }
                 break;
-            case "NORMAL":
+            case 'NORMAL':
                 if (!normalChecked) {
                     continue;
                 }
                 break;
-            case "HARD":
+            case 'HARD':
                 if (!hardChecked) {
                     continue;
                 }
                 break;
-            case "EXPERT":
+            case 'EXPERT':
                 if (!expertChecked) {
                     continue;
                 }
                 break;
-            case "MASTER":
+            case 'MASTER':
                 if (!masterChecked) {
                     continue;
                 }
                 break;
         }
-        lives.options.add(new Option(currentLive.name + " [" + currentLive.difficulty_text + "]", currentLive.live_setting_id));
+        lives.options.add(new Option(currentLive.name + ' [' + currentLive.difficulty_text + ']', currentLive.live_setting_id));
         lives[lives.options.length - 1].style.color = colorIndex[currentLive.attribute_icon_id];
         if (currentLive.live_setting_id == selectedLiveId) {
             lives[lives.options.length - 1].selected = true;
@@ -194,14 +200,14 @@ function updateLiveList(id) {
 }
 
 function changeSelectColors() {
-    if (document.getElementById("liveList1")) {
-        changeSelectColor("liveList1");
+    if (document.getElementById('liveList1')) {
+        changeSelectColor('liveList1');
     }
-    if (document.getElementById("liveList2")) {
-        changeSelectColor("liveList2");
+    if (document.getElementById('liveList2')) {
+        changeSelectColor('liveList2');
     }
-    if (document.getElementById("liveList3")) {
-        changeSelectColor("liveList3");
+    if (document.getElementById('liveList3')) {
+        changeSelectColor('liveList3');
     }
 }
 
@@ -214,17 +220,17 @@ function changeSelectColor(id) {
 }
 
 function loadFile() {
-    var resultFile = document.getElementById("openFile").files[0];
+    var resultFile = document.getElementById('openFile').files[0];
     if (resultFile) {
         var reader = new FileReader();
-        reader.readAsText(resultFile, "UTF-8");
+        reader.readAsText(resultFile, 'UTF-8');
         reader.onload = function(e) {
             var data = this.result;
-            teamInfo = JSON.parse(data);
+            teamInfo = JSON.parse(decodeURI(data));
             setTeamInfo();
         };
     } else {
-        alert("No file chosen!");
+        alert('No file chosen!');
     }
 }
 
@@ -265,15 +271,15 @@ function setTeamInfo() {
     var leader_skill_id;
 
     teamInfo.push({
-        "leaderSkillInfo": undefined,
-        "leaderSkillExtraInfo": undefined
+        'leaderSkillInfo': undefined,
+        'leaderSkillExtraInfo': undefined
     });
-    leader_skill_id = findJSON(unit_m, "unit_number", leader_unit_id)[0].default_leader_skill_id;
+    leader_skill_id = findJSON(unit_m, 'unit_number', leader_unit_id)[0].default_leader_skill_id;
     if (leader_skill_id != undefined) {
-        leaderSkillInfo = findJSON(unit_leader_skill_m, "unit_leader_skill_id", leader_skill_id)[0];
+        leaderSkillInfo = findJSON(unit_leader_skill_m, 'unit_leader_skill_id', leader_skill_id)[0];
 
         if (leaderSkillInfo != undefined) {
-            leaderSkillExtraInfo = findJSON(unit_leader_skill_extra_m, "unit_leader_skill_id", leader_skill_id)[0];
+            leaderSkillExtraInfo = findJSON(unit_leader_skill_extra_m, 'unit_leader_skill_id', leader_skill_id)[0];
             teamInfo[9].leaderSkillInfo = leaderSkillInfo;
             teamInfo[9].leaderSkillExtraInfo = leaderSkillExtraInfo;
         }
@@ -289,17 +295,17 @@ function setTeamInfo() {
     // Get member info
     for (var i = 0; i < 9; i++) {
         var unit_id = teamInfo[i].cardid;
-        var cardInfo = findJSON(unit_m, "unit_number", teamInfo[i].cardid)[0];
+        var cardInfo = findJSON(unit_m, 'unit_number', teamInfo[i].cardid)[0];
         $.extend(teamInfo[i], cardInfo);
 
         // Get skill info
-        var skill_info = findJSON(unit_skill_m, "unit_skill_id", teamInfo[i].default_unit_skill_id)[0];
-        $.extend(skill_info, findJSON(unit_skill_level_m, ["unit_skill_id", "skill_level"], [teamInfo[i].default_unit_skill_id, teamInfo[i].skilllevel])[0]);
+        var skill_info = findJSON(unit_skill_m, 'unit_skill_id', teamInfo[i].default_unit_skill_id)[0];
+        $.extend(skill_info, findJSON(unit_skill_level_m, ['unit_skill_id', 'skill_level'], [teamInfo[i].default_unit_skill_id, teamInfo[i].skilllevel])[0]);
         teamInfo[i].skill_info = skill_info;
 
         // Get member tag 
         var member_tag = new Array();
-        var member_tag_temp = findJSON(unit_type_member_tag_m, "unit_type_id", teamInfo[i].unit_type_id);
+        var member_tag_temp = findJSON(unit_type_member_tag_m, 'unit_type_id', teamInfo[i].unit_type_id);
         if (member_tag_temp.length > 1) {
             for (var j = 0; j < member_tag_temp.length; j++) {
                 member_tag.push(member_tag_temp[j].member_tag_id);
@@ -308,17 +314,88 @@ function setTeamInfo() {
         teamInfo[i].member_tag = member_tag;
     }
     console.log(teamInfo);
+    calculateTotalAttribute(1);
+
+}
+
+function getGuestInfo() {
+
+}
+
+function calculateTotalAttribute(attribute_id) {
+    var total = 0;
+    var attributeType = attributeIndex[attribute_id];
+    var leaderAttributeId = teamInfo[4].attribute_id;
+
+    // If target attribute agrees with the team leader attribute
+    if (leaderAttributeId == attribute_id) {
+        for (var i = 0; i < 9; i++) {
+            var member = teamInfo[i];
+            var bareAttribute = parseInt(member[attributeType]);
+            console.log('bareAttribute', bareAttribute);
+            // bonus from school idol skills effect on single member
+            var gemSingleBonus = parseInt(member.gemnum);
+            if (parseFloat(member.gemsinglepercent) > 0.16) {
+                gemSingleBonus += Math.ceil(bareAttribute * 0.1);
+                gemSingleBonus += Math.ceil(bareAttribute * 0.16);
+            } else {
+                gemSingleBonus += Math.ceil(bareAttribute * parseFloat(member.gemsinglepercent));
+            }
+            //bonus from school idol skills effect on sthe whole team
+            var gemAllBonus = 0;
+            for (var j = 0; j < teamInfo[9].gemallpercent.length; j++) {
+                if (parseFloat(teamInfo[9].gemallpercent[j]) > 0.024) {
+                    gemAllBonus += Math.ceil(bareAttribute * 0.018);
+                    gemAllBonus += Math.ceil(bareAttribute * 0.024);
+                } else {
+                    gemAllBonus += Math.ceil(bareAttribute * parseFloat(teamInfo[9].gemallpercent[j]));
+                }
+            }
+            // bonus from all school idol skills
+            var gemBonusAttribute = bareAttribute + gemSingleBonus + gemAllBonus;
+            console.log('gemBonusAttribute', gemBonusAttribute);
+
+            // bonus from leader skill
+            var leaderSkillBonus = 0;
+            var leaderSkillInfo = teamInfo[9].leaderSkillInfo;
+            if (leaderSkillInfo != undefined) {
+                var effectTypeId = leaderSkillInfo.leader_skill_effect_type;
+                var effectType = attributeIndex[effectTypeId];
+                // If old leader skill e.g.クールPが9%UPする
+                if (effectTypeId == leaderAttributeId) {
+                    leaderSkillBonus = Math.ceil(gemBonusAttribute * leaderSkillInfo.effect_value / 100);
+                    // If new leader skill e.g.スマイルPの12%分クールPがUPする
+                } else {
+                    leaderSkillBonus = Math.ceil(parseInt(member.effectType) * leaderSkillInfo.effect_value / 100);
+                }
+            }
+
+            // bonus from extra leader skill
+            var leaderSkillExtraBonus = 0;
+            var leaderSkillExtraInfo = teamInfo[9].leaderSkillExtraInfo;
+            if (leaderSkillExtraInfo != undefined) {
+                if (member.member_tag.indexOf(leaderSkillExtraInfo.member_tag_id) > -1) {
+                    leaderSkillExtraBonus = Math.ceil(gemBonusAttribute * leaderSkillExtraInfo.effect_value / 100);
+                }
+            }
+            //console.log(leaderSkillExtraBonus);
+            var memberTotal = gemBonusAttribute + leaderSkillBonus + leaderSkillExtraBonus;
+            total += memberTotal;
+        }
+
+    }
+    console.log(total);
 
 }
 
 function calculate() {
-    var lives = document.getElementById("liveList");
+    var lives = document.getElementById('liveList');
     var selectedLive = lives.options[lives.selectedIndex];
     if (selectedLive == undefined) {
-        alert("No live chosen!");
+        alert('No live chosen!');
         return -1;
     } else if (teamInfo == undefined) {
-        // alert("No team info loaded!")
+        // alert('No team info loaded!')
         // return -2;
     }
 
@@ -331,7 +408,7 @@ function calculate() {
         if (mapsJson[i].live_setting_id == liveId) {
             liveInfo = mapsJson[i];
             $.ajaxSettings.async = false;
-            $.getJSON("https://raw.githubusercontent.com/iebb/SIFMaps/master/latest/" + liveInfo.notes_setting_asset,
+            $.getJSON('https://raw.githubusercontent.com/iebb/SIFMaps/master/latest/' + liveInfo.notes_setting_asset,
                 function(json) {
                     liveNotes = json;
                 })
@@ -369,31 +446,31 @@ function calculate() {
 
 function addLiveList() {
     // liveList3 is hidden
-    if ($("#liveList3").is(":hidden")) {
+    if ($('#liveList3').is(':hidden')) {
 
         // liveList2 exists
-        if (!$("#liveList2").is(":hidden")) {
+        if (!$('#liveList2').is(':hidden')) {
 
             // show liveList3
-            $("#liveList3Frame").show();
-            $("#addLiveList").hide();
+            $('#liveList3Frame').show();
+            $('#addLiveList').hide();
             updateLiveLists();
 
             // Only liveList1 exists    
         } else {
-            $("#liveList2Frame").show();
-            $("#removeLiveList").show();
+            $('#liveList2Frame').show();
+            $('#removeLiveList').show();
             updateLiveLists();
         }
     }
 }
 
 function removeLiveList() {
-    if (!$("#liveList3").is(":hidden")) {
-        $("#liveList3Frame").hide();
-        $("#addLiveList").show();
-    } else if (!$("#liveList2").is(":hidden")) {
-        $("#liveList2Frame").hide();
-        $("#removeLiveList").hide();
+    if (!$('#liveList3').is(':hidden')) {
+        $('#liveList3Frame').hide();
+        $('#addLiveList').show();
+    } else if (!$('#liveList2').is(':hidden')) {
+        $('#liveList2Frame').hide();
+        $('#removeLiveList').hide();
     }
 }
