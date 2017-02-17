@@ -5,6 +5,7 @@ $(document).ready(function() {
     loadJSONs();
     $('#liveList2Frame').hide();
     $('#liveList3Frame').hide();
+    disableEnableGuest();
 })
 
 var mapsJson;
@@ -274,6 +275,8 @@ function setTeamInfo() {
         'leaderSkillInfo': undefined,
         'leaderSkillExtraInfo': undefined
     });
+
+
     leader_skill_id = findJSON(unit_m, 'unit_number', leader_unit_id)[0].default_leader_skill_id;
     if (leader_skill_id != undefined) {
         leaderSkillInfo = findJSON(unit_leader_skill_m, 'unit_leader_skill_id', leader_skill_id)[0];
@@ -313,12 +316,29 @@ function setTeamInfo() {
         }
         teamInfo[i].member_tag = member_tag;
     }
-    console.log(teamInfo);
-    calculateTotalAttribute(1);
+    console.log(calculateTotalAttribute(1));
+    console.log(calculateTotalAttribute(2));
+    console.log(calculateTotalAttribute(3));
 
 }
 
+function disableEnableGuest() {
+    if ($('#guest').is(':checked')) {
+        $("#guestLeaderSkill").children().attr("disabled", false);
+        $("#guestLeaderExtraSkill").children().each(function(index) {
+            $(this).children().attr("disabled", false);
+        });
+    } else {
+        $("#guestLeaderSkill").children().attr("disabled", true);
+        $("#guestLeaderExtraSkill").children().each(function(index) {
+            $(this).children().attr("disabled", true);
+        });
+    }
+}
+
 function getGuestInfo() {
+    var guestEffectType = $("input[name='guestEffectType']:checked").val();
+    var guestExtraEffectType = $("input[name='guestExtraEffectType']:checked").val();
 
 }
 
@@ -327,12 +347,16 @@ function calculateTotalAttribute(attribute_id) {
     var attributeType = attributeIndex[attribute_id];
     var leaderAttributeId = teamInfo[4].attribute_id;
 
+    // Get guest info
+    if ($('#guest').is(':checked')) {
+        var guestEffectTypeId = parseInt($("input[name='guestEffectType']:checked").val());
+        var guestExtraEffectTypeId = parseInt($("input[name='guestExtraEffectType']:checked").val());
+    }
     // If target attribute agrees with the team leader attribute
     if (leaderAttributeId == attribute_id) {
         for (var i = 0; i < 9; i++) {
             var member = teamInfo[i];
             var bareAttribute = parseInt(member[attributeType]);
-            console.log('bareAttribute', bareAttribute);
             // bonus from school idol skills effect on single member
             var gemSingleBonus = parseInt(member.gemnum);
             if (parseFloat(member.gemsinglepercent) > 0.16) {
@@ -353,7 +377,6 @@ function calculateTotalAttribute(attribute_id) {
             }
             // bonus from all school idol skills
             var gemBonusAttribute = bareAttribute + gemSingleBonus + gemAllBonus;
-            console.log('gemBonusAttribute', gemBonusAttribute);
 
             // bonus from leader skill
             var leaderSkillBonus = 0;
@@ -366,7 +389,7 @@ function calculateTotalAttribute(attribute_id) {
                     leaderSkillBonus = Math.ceil(gemBonusAttribute * leaderSkillInfo.effect_value / 100);
                     // If new leader skill e.g.スマイルPの12%分クールPがUPする
                 } else {
-                    leaderSkillBonus = Math.ceil(parseInt(member.effectType) * leaderSkillInfo.effect_value / 100);
+                    leaderSkillBonus = Math.ceil(parseInt(member[effectType]) * leaderSkillInfo.effect_value / 100);
                 }
             }
 
@@ -378,14 +401,43 @@ function calculateTotalAttribute(attribute_id) {
                     leaderSkillExtraBonus = Math.ceil(gemBonusAttribute * leaderSkillExtraInfo.effect_value / 100);
                 }
             }
-            //console.log(leaderSkillExtraBonus);
-            var memberTotal = gemBonusAttribute + leaderSkillBonus + leaderSkillExtraBonus;
+
+            // bonus from guest
+            var guestleaderSkillBonus = 0;
+            var guestLeaderSkillExtraBonus = 0;
+
+            if ($('#guest').is(':checked')) {
+                // bonus from guest's leader skill
+                if (!(isNaN(guestEffectTypeId))) {
+                    var guestEffectType = attributeIndex[guestEffectTypeId];
+                    // If old leader skill e.g.クールPが9%UPする
+                    if (guestEffectTypeId == leaderAttributeId) {
+                        guestleaderSkillBonus = Math.ceil(gemBonusAttribute * 0.09);
+                        // If new leader skill e.g.スマイルPの12%分クールPがUPする
+                    } else {
+                        guestleaderSkillBonus = Math.ceil(parseInt(member[guestEffectType]) * 0.12);
+                    }
+                }
+                // bonus from guest's extra leader skill
+                if (!(isNaN(guestExtraEffectTypeId))) {
+                    if (member.member_tag.indexOf(guestExtraEffectTypeId) > -1) {
+                        if (guestExtraEffectTypeId == 4 || guestExtraEffectTypeId == 5) {
+                            guestLeaderSkillExtraBonus = Math.ceil(gemBonusAttribute * 0.03);
+                        } else {
+                            guestLeaderSkillExtraBonus = Math.ceil(gemBonusAttribute * 0.06);
+                        }
+                    }
+                }
+            }
+            var memberTotal = gemBonusAttribute + leaderSkillBonus + leaderSkillExtraBonus + guestleaderSkillBonus + guestLeaderSkillExtraBonus;
             total += memberTotal;
         }
-
+    } else {
+        for (var i = 0; i < 9; i++) {
+            total += parseInt(teamInfo[i][attributeType]);
+        }
     }
-    console.log(total);
-
+    return total;
 }
 
 function calculate() {
