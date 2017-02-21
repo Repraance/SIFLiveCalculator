@@ -16,7 +16,7 @@
 
     <body>
         <div class="jumbotron">
-            <div class="container-fluid">
+            <div class="container">
                 <nav class="navbar navbar-default navbar-static-top" style="background-color: #fff" role="navigation">
                     <a class="navbar-brand" href="#"><span class="text-center">スクフェス Live Calculator</span></a>
                 </nav>
@@ -28,34 +28,7 @@
 
                 <div class="row">
 
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="well well-sm">
-                            <div style="margin-bottom: 10px" id="liveListList">
-                                <div style="margin-bottom: 10px" class="well well-sm" id="liveList1Frame">
-                                    <h4>First Live</h4>
-                                    <select name="live" id="liveList1" class="form-control" required="required" onchange="changeSelectColors()"></select>
-                                </div>
-                                <div style="margin-bottom: 10px" class="well well-sm" id="liveList2Frame">
-                                    <h4>Second Live</h4>
-                                    <select name="live" id="liveList2" class="form-control" required="required" onchange="changeSelectColors()"></select>
-                                </div>
-                                <div style="margin-bottom: 10px" class="well well-sm" id="liveList3Frame">
-                                    <h4>Third Live</h4>
-                                    <select name="live" id="liveList3" class="form-control" required="required" onchange="changeSelectColors()"></select>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <button type="button" class="btn btn-default" onclick="addLiveList()" id="addLiveList">
-                                <span class="glyphicon glyphicon-plus" style="color: green"></span>
-                                </button>
-                                <button type="button" class="btn btn-default" onclick="removeLiveList()" id="removeLiveList">
-                                <span class="glyphicon glyphicon-minus" style="color: red"></span>
-                                </button>
-                                <button type="button" class="btn btn-default" onclick="calculate()">Calculate</button>
-                                <p id="result">result</p>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                         <div class="well well-sm" style="padding-top: 0px; padding-bottom: 0px;">
                             <h3>Filter</h3>
@@ -100,58 +73,83 @@
                         </div>
 
                     </div>
-                </div>
-                <div class="row" style="margin-bottom: 20px">
-                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-
-                    </div>
-                    <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6">
-                        <input id="openFile" type="file" class="filestyle" data-buttonBefore="true" accept=".sd">
-                        <button class="btn btn-default" onclick="loadFile()">Load file</button>
-
-                    </div>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="padding-bottom: 0px">
                         <div class="well well-sm">
-                            <table class="table">
-                                <caption>Team info</caption>
-                                <thead>
-                                    <tr>
-                                        <th>ph</th>
-                                        <th>ph</th>
-                                        <th>ph</th>
-                                        <th>ph</th>
-                                        <th>ph</th>
-                                        <th>ph</th>
-                                        <th>ph</th>
-                                        <th>ph</th>
-                                        <th>ph</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th id="card0">ph</th>
-                                        <th id="card0">ph</th>
-                                        <th id="card0">ph</th>
-                                        <th id="card0">ph</th>
-                                        <th id="card0">ph</th>
-                                        <th id="card0">ph</th>
-                                        <th id="card0">ph</th>
-                                        <th id="card0">ph</th>
-                                        <th id="card0">ph</th>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div style="margin-bottom: 10px" id="liveListList">
+                                <div style="margin-bottom: 10px" class="well well-sm" id="liveList1Frame">
+                                    <h4>First Live</h4>
+                                    <select name="live" id="liveList1" class="form-control" required="required" onchange="changeSelectColors()"></select>
+                                </div>
+                                <div style="margin-bottom: 10px" class="well well-sm" id="liveList2Frame">
+                                    <h4>Second Live</h4>
+                                    <select name="live" id="liveList2" class="form-control" required="required" onchange="changeSelectColors()"></select>
+                                </div>
+                                <div style="margin-bottom: 10px" class="well well-sm" id="liveList3Frame">
+                                    <h4>Third Live</h4>
+                                    <select name="live" id="liveList3" class="form-control" required="required" onchange="changeSelectColors()"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-inline" style="margin-bottom: 0px">
+                                <div style="display: inline">
+                                    <b>Perfect rate:</b>
+                                    <input type="number" style="max-width: 100px" class="form-control" id="perfectRate" min="0" value="0.9" max="1" step="0.01">
+                                </div>
+                                <div style="display: inline">
+                                    <button style="position: relative;left: 30px" type="button" class="btn btn-default" onclick="addLiveList()" id="addLiveList">
+                                    <span class="glyphicon glyphicon-plus" style="color: green"></span>
+                                    </button>
+                                    <button style="position: relative;left: 30px" type="button" class="btn btn-default" onclick="removeLiveList()" id="removeLiveList">
+                                    <span class="glyphicon glyphicon-minus" style="color: red"></span>
+                                    </button>
+                                </div>
+                            </div>
 
 
 
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                        <div class="well well-sm">
+
+                            <table class="table" style="margin-top: 10px">
+                                <caption>
+                                    <div class="form-inline text-right">
+                                        <p style="float: left; margin-left: 10px; margin-right: 10px">Team info</p>
+                                        <input id="openFile" type="file" class="filestyle" accept=".sd">
+                                        <button class="btn btn-default" onclick="loadFile()">Load file</button>
+                                    </div>
+                                </caption>
+
+                                <tbody>
+                                    <tr id="cardList">
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive" onclick="loadFile()" draggable="true"></td>
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive" draggable="true"></td>
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive" draggable="true"></td>
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive" draggable="true"></td>
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive" draggable="true"></td>
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive"></td>
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive"></td>
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive"></td>
+                                        <td><img src="statics/imgs/icon/placeHolder.png" class="img-responsive"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-bottom: 10px">
+
+                            <button type="button" class="btn btn-large btn-block btn-primary" onclick="calculate()">Calculate</button>
+                        </div>
+                        <div class="well well-sm">
+                            <p id="result">result</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 
                         <div class="well well-sm">
 
@@ -163,7 +161,7 @@
 
                             <div class="well well-sm" style="margin-bottom: 10px" id="guestLeaderSkill">
                                 <h4>Guest leader skill</h4>
-                                <span>Team default attribute up by 9% or 12% of</span>
+                                Team <span class="tda">default</span> attribute up by 9% or 12% of
                                 <br>
 
                                 <input id="guestSmile" class="radio-custom" name="guestEffectType" type="radio" value="1" onclick="updateLiveLists()">
@@ -180,7 +178,7 @@
 
                             <div class="well well-sm" style="margin-bottom: 10px" id="guestLeaderExtraSkill">
                                 <h4>Guest leader extra skill</h4>
-                                <span>Team default attribute up by 3% of</span>
+                                <span>Team <span class="tda">default</span> attribute up by 3% of</span>
                                 <div>
                                     <input id="guestMuse" class="radio-custom" name="guestExtraEffectType" type="radio" value="4" onclick="updateLiveLists()">
                                     <label for="guestMuse" class="radio-custom-label">μ's</label>
@@ -190,7 +188,7 @@
                                 </div>
                                 <hr style="margin: 10px">
                                 <div>
-                                    <span>Team default attribute up by 6% of</span>
+                                    <span>Team <span class="tda">default</span> attribute up by 6% of</span>
                                     <br>
                                     <input id="guest1stYear" class="radio-custom" name="guestExtraEffectType" type="radio" value="1">
                                     <label for="guest1stYear" class="radio-custom-label">1st Year</label>

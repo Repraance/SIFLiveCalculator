@@ -11,6 +11,14 @@
     border-color: #ddd;
 }
 
+img {
+    max-width: 80px;
+}
+
+td {
+    padding: 10px 2px 0px 2px!important;
+}
+
 
 /*ref: http://blog.karenmenezes.com/2014/nov/1/another-pure-css-checkbox-article/*/
 

@@ -94,6 +94,7 @@ function initLiveList() {
         liveTag.member_category = currentLive.member_category;
         liveTag.difficulty_text = currentLive.difficulty_text;
         liveTag.live_setting_id = currentLive.live_setting_id;
+        liveTag.s_rank_combo = currentLive.s_rank_combo;
         liveList.push(liveTag);
     }
 }
@@ -190,7 +191,8 @@ function updateLiveList(id) {
                 }
                 break;
         }
-        lives.options.add(new Option(currentLive.name + ' [' + currentLive.difficulty_text + ']', currentLive.live_setting_id));
+        lives.options.add(new Option(currentLive.name + ' [' + currentLive.difficulty_text + '] [' + currentLive.s_rank_combo + ']',
+            currentLive.live_setting_id));
         lives[lives.options.length - 1].style.color = colorIndex[currentLive.attribute_icon_id];
         if (currentLive.live_setting_id == selectedLiveId) {
             lives[lives.options.length - 1].selected = true;
@@ -229,6 +231,7 @@ function loadFile() {
             var data = this.result;
             teamInfo = JSON.parse(decodeURI(data));
             setTeamInfo();
+            displayTeam();
         };
     } else {
         alert('No file chosen!');
@@ -307,10 +310,14 @@ function setTeamInfo() {
         let skill_info_all = $.extend({}, skill_level_info, skill_info);
         console.log(skill_level_info);
         teamInfo[i].skill_info = skill_info_all;
+        if (teamInfo[i].skill_info) {
+            teamInfo[i].skill_info.activation_rate_rev = teamInfo[i].skill_info.activation_rate;
+        }
         if (teamInfo[i].gemskill) {
             teamInfo[i].skill_info.effect_value *= 2.5;
 
         }
+
         // Get member tag 
         var member_tag = new Array();
         var member_tag_temp = findJSON(unit_type_member_tag_m, 'unit_type_id', teamInfo[i].unit_type_id);
@@ -322,6 +329,43 @@ function setTeamInfo() {
         teamInfo[i].member_tag = member_tag;
     }
     console.log(teamInfo);
+}
+
+function displayTeam() {
+    var cardList = $('#cardList img');
+    for (var i = 0; i < 9; i++) {
+        let url = 'statics/imgs/icon/';
+        if (teamInfo[i].mezame) {
+            url += 'rankup/';
+        } else {
+            url += 'normal/';
+        }
+        url += String(teamInfo[i].cardid) + '.png';
+        cardList.eq(i).attr('src', url);
+    }
+
+
+    var teamDefaultAttribute = teamInfo[4].attribute_id;
+    $('.tda').text(attributeIndex[teamDefaultAttribute]);
+    switch (teamDefaultAttribute) {
+        case 1:
+            $('#guestSmile').next().children().text('Smile 9% up');
+            $('#guestPure').next().children().text('Pure 12% up');
+            $('#guestCool').next().children().text('Cool 12% up');
+            break;
+        case 2:
+            $('#guestSmile').next().children().text('Smile 12% up');
+            $('#guestPure').next().children().text('Pure 9% up');
+            $('#guestCool').next().children().text('Cool 12% up');
+            break;
+        case 3:
+            $('#guestSmile').next().children().text('Smile 12% up');
+            $('#guestPure').next().children().text('Pure 12% up');
+            $('#guestCool').next().children().text('Cool 9% up');
+            break;
+        default:
+            break;
+    }
 
 }
 
@@ -528,7 +572,9 @@ function calculate() {
         liveInfo.liveNotes = mergeMaps(liveInfo.liveNotes, live3.liveNotes);
         liveInfo.totalNoteCount += live3.totalNoteCount;
     }
-    var score = calculateExpectedScore(liveInfo, 0.9);
+    var perfectRate = $('#perfectRate').val();
+    console.log('perfectRate', parseFloat(perfectRate));
+    var score = calculateExpectedScore(liveInfo, perfectRate);
     $('#result').html(score);
 }
 
@@ -652,27 +698,27 @@ function calculateExpectedScore(liveInfo, perfectRate, maxCombo = 0, scoreUp = f
 
                     case 3: // 'trigger_type': 3 indicates icon
                         skillExpectedScore = Math.floor(totalNoteCount / skillInfo.trigger_value) *
-                            skillInfo.activation_rate / 100 * skillInfo.effect_value;
+                            skillInfo.activation_rate_rev / 100 * skillInfo.effect_value;
                         break;
 
                     case 4: // 'trigger_type': 4 indicates combo
                         skillExpectedScore = Math.floor(totalNoteCount / skillInfo.trigger_value) *
-                            skillInfo.activation_rate / 100 * skillInfo.effect_value;
+                            skillInfo.activation_rate_rev / 100 * skillInfo.effect_value;
                         break;
 
                     case 6: // 'trigger_type': 6 indicates Perfect
                         skillExpectedScore = Math.floor(perfectCount / skillInfo.trigger_value) *
-                            skillInfo.activation_rate / 100 * skillInfo.effect_value;
+                            skillInfo.activation_rate_rev / 100 * skillInfo.effect_value;
                         break;
 
                     case 12: // 'trigger_type': 12 indicates star icon
                         skillExpectedScore = Math.floor(starCount / skillInfo.trigger_value) *
-                            skillInfo.activation_rate / 100 * skillInfo.effect_value;
+                            skillInfo.activation_rate_rev / 100 * skillInfo.effect_value;
                         break;
 
                     case 1: // 'trigger_type': 1 indicates time
                         skillExpectedScore = Math.floor(liveNotes[liveNotes.length - 1].timing_sec / 1000 / skillInfo.trigger_value) *
-                            skillInfo.activation_rate / 100 * skillInfo.effect_value;
+                            skillInfo.activation_rate_rev / 100 * skillInfo.effect_value;
                         break;
                     default:
                         break;
@@ -689,7 +735,7 @@ function calculateExpectedScore(liveInfo, perfectRate, maxCombo = 0, scoreUp = f
     for (let i = 0; i < 9; i++) {
         let skillInfo = teamInfo[i].skill_info;
         if (skillInfo.skill_effect_type == 11 && skillInfo.trigger_type == 5) {
-            let scoringUpRate = skillInfo.effect_value / skillInfo.trigger_value * skillInfo.activation_rate / 100;
+            let scoringUpRate = skillInfo.effect_value / skillInfo.trigger_value * skillInfo.activation_rate_rev / 100;
             totalScoringUpRate += scoringUpRate;
         }
     }
