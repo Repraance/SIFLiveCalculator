@@ -1,0 +1,3 @@
+[submodule "dist/assets/image/card"]
+	path = dist/assets/image/card
+	url = https://github.com/iebb/SIFStatic.git
