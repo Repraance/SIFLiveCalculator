@@ -1,5 +1,7 @@
 .DS_Store
 node_modules/
-dist/
-npm-debug.log
+!dist/
+dist/*
+!dist/assets/
+npm-debug.l
 yarn-error.log

@@ -1,0 +1,211 @@
+body {
+    font-family: Microsoft Yahei UI, 微软雅黑, Meiryo;
+    line-height: 1.42857143;
+}
+
+.btn {
+    line-height: 1.42857143;
+}
+
+img {
+    max-width: 80px;
+}
+
+hr {
+    margin: 5px!important;
+}
+
+table.team-list>tbody>tr>th,
+table.team-list>tbody>tr>td {
+    vertical-align: middle!important;
+    border-top: none !important;
+    padding: 4px 1px 1px 1px!important;
+}
+
+td {
+    vertical-align: middle!important;
+}
+
+.has-border-left td {
+    border-left: 1px solid #aaa;
+}
+
+table.team-list {
+    margin-top: 0px;
+    margin-bottom: 0px!important;
+    text-align: center;
+    table-layout: fixed;
+}
+
+label {
+    margin-bottom: 0px;
+    font-weight: 500;
+}
+
+input {
+    text-align: center;
+}
+
+#skill-lv input {
+    padding-left: 16px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.input-group-addon {
+    background-color: #fff;
+}
+
+.input-sm {
+    font-size: 14px;
+}
+
+.jumbotron {
+    background-color: #FAFAFA;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0px;
+}
+
+.well {
+    background-color: #fff;
+}
+
+.shadowed-text {
+    text-shadow: 0px 0px 1px black;
+}
+
+.form-control {
+    padding: 0px 0px 0px 0px;
+    text-align: center!important;
+}
+
+.well-5 {
+    margin-bottom: 5px;
+}
+
+.margin-lr {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.card-box {
+    max-width: 20%;
+    display: inline;
+}
+
+.img-col {
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-bottom: 2px;
+}
+
+.img-responsive {
+    max-width: 100%!important;
+}
+
+.input-group {
+    margin-bottom: 10px;
+}
+
+.bootstrap-filestyle {
+    margin-bottom: 4px;
+}
+
+.form-control:disabled {
+    opacity: 0.6;
+}
+
+_::-webkit-full-page-media,
+_:future,
+ :root .safari_only .table,
+.input-sm {
+    font-size: 11px;
+}
+
+@media (max-width: 768px) {
+    .table,
+    .input-sm {
+        font-size: 10px;
+    }
+    select {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+}
+
+
+/*ref: http://blog.karenmenezes.com/2014/nov/1/another-pure-css-checkbox-article/*/
+
+.checkbox-custom,
+.radio-custom {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-custom,
+.checkbox-custom-label,
+.radio-custom,
+.radio-custom-label {
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 2px;
+    vertical-align: middle;
+}
+
+.checkbox-custom-label,
+.radio-custom-label {
+    position: relative;
+}
+
+.checkbox-custom+.checkbox-custom-label:before,
+.radio-custom+.radio-custom-label:before {
+    content: '';
+    background: #fff;
+    border: 4px solid #bbb;
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    padding: 1px;
+    margin-right: 4px;
+    text-align: center;
+    border-radius: 30%;
+}
+
+.checkbox-custom:checked+.checkbox-custom-label:before {
+    background: #333;
+    box-shadow: inset 0px 0px 0px 0px #fff;
+    border: 4px solid #bbb;
+}
+
+.checkbox-custom:disabled+.checkbox-custom-label:before,
+.radio-custom:disabled+.radio-custom-label:before,
+.checkbox-custom:disabled+.checkbox-custom-label,
+.radio-custom:disabled+.radio-custom-label {
+    opacity: 0.6;
+    box-shadow: none;
+}
+
+.radio-custom+.radio-custom-label:before,
+.radio-custom:disabled+.radio-custom-label:before {
+    border-radius: 50%;
+}
+
+.radio-custom:checked+.radio-custom-label:before {
+    background: #333;
+    box-shadow: inset 0px 0px 0px 0px #fff;
+    border: 4px solid #bbb;
+}
+
+.checkbox-custom:focus+.checkbox-custom-label,
+.radio-custom:focus+.radio-custom-label {
+    /*outline: 1px solid #ddd;*/
+    /* focus style */
+}
