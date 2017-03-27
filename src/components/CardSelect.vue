@@ -256,3 +256,19 @@
         <!-- /.modal -->
     </div>
 </template>
+
+<script>
+    export default {
+        data() {
+            return {
+                unitInfo: null
+            }
+        },
+        mounted: function() {
+            this.$events.$on('getUnitInfo', unitInfo => {
+                this.unitInfo = unitInfo;
+                console.log('CardSelecting component received unitInfo. ', 'unitInfo.length: ', this.unitInfo.length);
+            });
+        }
+    }
+</script>

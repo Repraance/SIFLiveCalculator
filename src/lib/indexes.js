@@ -10,6 +10,12 @@ export const attributeIndex = {
     3: 'cool'
 }
 
+export const japaneseAttributeIndex = {
+    1: 'スマイル',
+    2: 'ピュア',
+    3: 'クール'
+}
+
 export const rarityIndex = {
     1: 'N',
     2: 'R',
@@ -18,20 +24,16 @@ export const rarityIndex = {
     5: 'SSR'
 }
 
-export let teamInfoSample = new Array(10);
-for (let i = 0; i < 9; i++) {
-    teamInfoSample[i] = {
-        "smile": 0,
-        "pure": 0,
-        "cool": 0,
-        "cardid": 0,
-        "skilllevel": 1,
-        "mezame": 0,
-        "gemnum": 0,
-        "gemsinglepercent": 0,
-        "gemallpercent": 0,
-        "gemskill": 0,
-        "gemacc": 0
-    }
-    teamInfoSample[9] = new Object();
+export const memberTagIndex = {
+    1: '1年生',
+    2: '2年生',
+    3: '3年生',
+    4: "μ's",
+    5: 'Aqours',
+    6: 'Printemps',
+    7: 'lily white',
+    8: 'BiBi',
+    9: 'CYaRon！',
+    10: 'AZALEA',
+    11: 'Guilty Kiss'
 }

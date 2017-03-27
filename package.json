@@ -5,7 +5,7 @@
     "author": "reprance@gmail.com",
     "private": false,
     "scripts": {
-        "dev": "cross-env NODE_ENV=development webpack-dev-server --content-base dist/",
+        "dev": "cross-env NODE_ENV=development webpack-dev-server --host 127.0.0.1 --content-base dist/",
         "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
     },
     "dependencies": {

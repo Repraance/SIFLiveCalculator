@@ -15,26 +15,12 @@ hr {
     margin: 5px!important;
 }
 
-table.team-list>tbody>tr>th,
-table.team-list>tbody>tr>td {
-    vertical-align: middle!important;
-    border-top: none !important;
-    padding: 4px 1px 1px 1px!important;
-}
-
 td {
     vertical-align: middle!important;
 }
 
 .has-border-left td {
     border-left: 1px solid #aaa;
-}
-
-table.team-list {
-    margin-top: 0px;
-    margin-bottom: 0px!important;
-    text-align: center;
-    table-layout: fixed;
 }
 
 label {
@@ -56,10 +42,6 @@ input {
 
 .input-group-addon {
     background-color: #fff;
-}
-
-.input-sm {
-    font-size: 14px;
 }
 
 .jumbotron {
@@ -119,13 +101,6 @@ input {
 
 .form-control:disabled {
     opacity: 0.6;
-}
-
-_::-webkit-full-page-media,
-_:future,
- :root .safari_only .table,
-.input-sm {
-    font-size: 11px;
 }
 
 @media (max-width: 768px) {
@@ -191,6 +166,7 @@ _:future,
 .radio-custom:disabled+.radio-custom-label {
     opacity: 0.6;
     box-shadow: none;
+    cursor: not-allowed;
 }
 
 .radio-custom+.radio-custom-label:before,

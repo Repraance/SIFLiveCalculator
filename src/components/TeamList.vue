@@ -8,7 +8,6 @@
                         <caption>
                             <div class="form-inline text-right">
                                 <p style="float: left; margin-left: 10px; margin-right: 10px; margin-bottom: 4px"><b>Team Info</b></p>
-                                <!--<input id="openFile" type="file" class="filestyle" accept=".sd" v-on:change="selectFile">-->
                                 <div class="input-group" style="margin-bottom: 4px">
                                     <input type="text" class="form-control" :placeholder="fileName" aria-describedby="file-input-addon" disabled>
                                     <label class="btn btn-default btn-file input-group-addon" id="file-input-addon">
@@ -19,7 +18,7 @@
                                 </div>
                                 <button class="btn btn-default" style="margin-bottom: 4px" v-on:click="loadFile">Load File</button>
                                 <button class="btn btn-default" style="margin-bottom: 4px">Save File</button>
-                                
+
                             </div>
                         </caption>
 
@@ -27,7 +26,7 @@
                             <tr id="weight">
                                 <th>Weight</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model="noteWeight[i]">
+                                    <input type="text" class="form-control input-sm" v-model:number="notesWeight[i]">
                                 </td>
                             </tr>
 
@@ -40,38 +39,38 @@
                             <tr>
                                 <th>Rankup</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input v-bind:id="'rankup-' + i" class="checkbox-custom" type="checkbox" v-model.number="teamInfo[i].mezame">
+                                    <input v-bind:id="'rankup-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].mezame" @click="changeAttribute">
                                     <label v-bind:for="'rankup-' + i" class="checkbox-custom-label">Yes</label>
                                 </td>
                             </tr>
                             <tr id="smile-value">
-                                <th><span style="color: #E91E63">Smile</span></th>
+                                <th style="color: #E91E63">Smile</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model.number="teamInfo[i].smile">
+                                    <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].smile" style="color: #E91E63" readonly>
                                 </td>
                             </tr>
                             <tr id="pure-value">
-                                <th><span style="color: #4CAF50">Pure</span></th>
+                                <th style="color: #4CAF50">Pure</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model.number="teamInfo[i].pure">
+                                    <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].pure" style="color: #4CAF50" readonly>
                                 </td>
                             </tr>
                             <tr id="cool-value">
-                                <th><span style="color: #2196F3">Cool</span></th>
+                                <th style="color: #2196F3">Cool</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model.number="teamInfo[i].cool">
+                                    <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].cool" style="color: #2196F3" readonly>
                                 </td>
                             </tr>
                             <tr id="skill-lv">
                                 <th>Skill Lv</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="number" class="form-control input-sm" min="1" max="8" step="1" v-model.number="teamInfo[i].skilllevel">
+                                    <input type="number" class="form-control input-sm" min="1" max="8" step="1" v-model.number="team.memberInfo[i].skilllevel">
                                 </td>
                             </tr>
                             <tr id="fixed-value">
-                                <th>Fixed value</th>
+                                <th>Fixed</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <select name="fixed-value" class="form-control input-sm" v-model.number="teamInfo[i].gemnum">
+                                    <select name="fixed-value" class="form-control input-sm" v-model.number="team.memberInfo[i].gemnum">
                                 <option value="0">0</option>
                                 <option value="200">200</option>
                                 <option value="450">450</option>
@@ -80,9 +79,9 @@
                                 </td>
                             </tr>
                             <tr id="single-percent">
-                                <th>Single percent</th>
+                                <th>Single</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <select name="single-percent" class="form-control input-sm" v-model.number="teamInfo[i].gemsinglepercent">
+                                    <select name="single-percent" class="form-control input-sm" v-model.number="team.memberInfo[i].gemsinglepercent">
                                 <option value="0">0</option>
                                 <option value="0.1">10%</option>
                                 <option value="0.16">16%</option>
@@ -91,9 +90,9 @@
                                 </td>
                             </tr>
                             <tr id="total-percent">
-                                <th>Total percent</th>
+                                <th>Total</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <select name="total-percent" class="form-control input-sm" v-model.number="teamInfo[i].gemallpercent">
+                                    <select name="total-percent" class="form-control input-sm" v-model.number="team.memberInfo[i].gemallpercent">
                                 <option value="0">0</option>
                                 <option value="0.018">1.8%</option>
                                 <option value="0.024">2.4%</option>
@@ -102,16 +101,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Charm / Heal</th>
+                                <th>Skill</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input v-bind:id="'charm-heal-' + i" class="checkbox-custom" type="checkbox" v-model.number="teamInfo[i].gemskill">
+                                    <input v-bind:id="'charm-heal-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].gemskill">
                                     <label v-bind:for="'charm-heal-' + i" class="checkbox-custom-label">Yes</label>
                                 </td>
                             </tr>
                             <tr>
                                 <th>Trick</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input v-bind:id="'trick-' + i" class="checkbox-custom" type="checkbox" v-model.number="teamInfo[i].gemacc">
+                                    <input v-bind:id="'trick-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].gemacc">
                                     <label v-bind:for="'trick-' + i" class="checkbox-custom-label">Yes</label>
                                 </td>
                             </tr>
@@ -121,16 +120,67 @@
                                     <input type="text" class="form-control input-sm" v-model="slots[i]">
                                 </td>
                             </tr>
+                            <!--
+                            <tr id="strength">
+                                <th>Strength</th>
+                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                    <input type="text" class="form-control input-sm">
+                                </td>
+                            </tr>
+                            <tr id="attr-strength">
+                                <th>-- Attr</th>
+                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                    <input type="text" class="form-control input-sm">
+                                </td>
+                            </tr>
+                            <tr id="skill-strength">
+                                <th>-- Skill</th>
+                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                    <input type="text" class="form-control input-sm">
+                                </td>
+                            </tr>
+                            <tr id="real-strength">
+                                <th>-- Real</th>
+                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                    <input type="text" class="form-control input-sm">
+                                </td>
+                            </tr>
+                            -->
+                            <tr id="center-skill">
+                                <th>Center Skill</th>
+                                <td colspan="9">
+                                    {{ centerSkill }}
+                                </td>
+                            </tr>
+                            <tr id="team-attr">
+                                <th>Team Attribute</th>
+                                <td colspan="3">
+                                    <div class="attr-box-smile">
+                                        {{ team.teamAttribute.smile_string }}
+                                    </div>
+                                </td>
+                                <td colspan="3">
+                                    <div class="attr-box-pure">
+                                        {{ team.teamAttribute.pure_string }}
+                                    </div>
+                                </td>
+                                <td colspan="3">
+                                    <div class="attr-box-cool">
+                                        {{ team.teamAttribute.cool_string }}
+                                    </div>
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <guest :defaultAttribute="teamInfo[0].skilllevel"></guest>
+                <guest></guest>
             </div>
         </div>
-        
+
     </div>
 </template>
 
@@ -138,31 +188,34 @@
     import cardSelect from './CardSelect.vue';
     import guest from './Guest.vue';
 
-    let teamInfoSample = new Array(10);
-    for (let i = 0; i < 9; i++) {
-        teamInfoSample[i] = {
-            "smile": 0,
-            "pure": 0,
-            "cool": 0,
-            "cardid": 0,
-            "skilllevel": 1,
-            "mezame": 0,
-            "gemnum": 0,
-            "gemsinglepercent": 0,
-            "gemallpercent": 0,
-            "gemskill": 0,
-            "gemacc": 0
-        }
-        teamInfoSample[9] = new Object();
-    }
+    import {
+        attributeIndex,
+        memberTagIndex,
+        japaneseAttributeIndex
+    } from '../lib/indexes.js'
 
+    import {
+        teamInfoSample,
+        noteWeightSample
+    } from '../lib/samples.js'
+
+    import _ from 'lodash'
+
+    import {
+        changeAttributeWithRankup
+    } from '../lib/misc.js'
+
+    import LiveCalculator from '../lib/calculating.js'
+    import Team from '../lib/team.js'
     export default {
         name: 'team-list',
         data: function() {
             return {
                 file: null,
-                teamInfo: teamInfoSample,
-                unitInfo: null
+                unitInfo: null,
+                notesWeight: [],
+                centerSkill: 'N / A',
+                team: new Team()
             }
         },
         components: {
@@ -174,6 +227,15 @@
                 this.file = event.target.files[0];
                 console.log(this.file);
             },
+            appendOriginalCardInfo: function(member) {
+                for (let i = 0; i < this.unitInfo.length; i++) {
+                    if (this.unitInfo[i].unit_number == member.cardid) {
+                        member.originalCardInfo = this.unitInfo[i];
+                        member.attribute_id = member.originalCardInfo.attribute_id;
+                        member.attribute = attributeIndex[member.attribute_id];
+                    }
+                }
+            },
             loadFile: function() {
                 if (this.file) {
                     let reader = new FileReader();
@@ -183,24 +245,57 @@
                         let rawTeamInfo = JSON.parse(decodeURI(data));
                         for (let i = 0; i < 9; i++) {
                             for (let key in rawTeamInfo[i]) {
-                                rawTeamInfo[i][key] = Number(rawTeamInfo[i][key]);
+                                this.team.memberInfo[i][key] = Number(rawTeamInfo[i][key]);
                             }
+                            this.appendOriginalCardInfo(this.team.memberInfo[i]);
                         }
-                        this.teamInfo = rawTeamInfo;
+                        console.log(this.team.memberInfo);
                     }
                 }
             },
             openCardSelectModal: function() {
+                // jQuery
                 $('#cardSelectModal').modal('toggle');
             },
             getUnitInfo: function() {
                 this.$http.get('assets/json/unit.json').then(
                     (response) => {
                         this.unitInfo = response.body;
+                        this.$events.$emit('getUnitInfo', this.unitInfo);
                     });
+            },
+            addNotesWeight: function(n1, n2) {
+                for (let i = 0; i < 9; i++) {
+                    n1[i] += n2[i];
+                }
+            },
+            changeNotesWeight: function(weight) {
+                this.notesWeight = weight;
+            },
+            changeAttribute: function(event) {
+                let index = Number(event.target.id.slice(-1));
+                if (this.team.memberInfo[index].cardid) {
+                    changeAttributeWithRankup(this.team.memberInfo[index]);
+                }
+            },
+            changeCenterSkill: function() {
+                let centerSkillDescription = 'N / A'
+                if (this.team.memberInfo[4].cardid) {
+                    let leaderSkillInfo = this.team.memberInfo[4].originalCardInfo.leader_skill_info;
+                    let leaderExtraSkillInfo = this.team.memberInfo[4].originalCardInfo.leader_extra_skill_info;
+                    if (leaderSkillInfo)
+                        centerSkillDescription = leaderSkillInfo.name + '：' + leaderSkillInfo.description;
+                    if (leaderExtraSkillInfo) {
+                        let memberTagId = leaderExtraSkillInfo.member_tag_id;
+                        let effectValue = leaderExtraSkillInfo.effect_value;
+                        let effectType = leaderExtraSkillInfo.leader_skill_effect_type;
+                        let extraCenterSkillDescription = memberTagIndex[memberTagId] + 'のメンバーはさらに' + japaneseAttributeIndex[effectType] + 'Pが' + effectValue + '%UPする'
+                        centerSkillDescription += ' + ' + extraCenterSkillDescription;
+                    }
+                }
+                this.centerSkill = centerSkillDescription;
             }
         },
-        props: ['noteWeight'],
         computed: {
             fileName: function() {
                 if (this.file)
@@ -211,7 +306,7 @@
             slots: function() {
                 let slot = [];
                 for (let i = 0; i < 9; i++) {
-                    let member = this.teamInfo[i];
+                    let member = this.team.memberInfo[i];
                     let currentSlot = 0;
                     switch (member.gemnum) {
                         case 0:
@@ -263,11 +358,11 @@
             avatarSrc: function() {
                 let src = [];
                 for (let i = 0; i < 9; i++) {
-                    if (this.teamInfo[i].cardid) {
-                        if (this.teamInfo[i].mezame) {
-                            src.push('assets/image/card/icon/' + 'rankup/' + String(this.teamInfo[i].cardid) + '.png');
+                    if (this.team.memberInfo[i].cardid) {
+                        if (this.team.memberInfo[i].mezame) {
+                            src.push('assets/image/card/icon/' + 'rankup/' + String(this.team.memberInfo[i].cardid) + '.png');
                         } else {
-                            src.push('assets/image/card/icon/' + 'normal/' + String(this.teamInfo[i].cardid) + '.png');
+                            src.push('assets/image/card/icon/' + 'normal/' + String(this.team.memberInfo[i].cardid) + '.png');
                         }
                     } else {
                         src.push('assets/image/placeHolder.png');
@@ -276,16 +371,95 @@
                 return src;
             }
         },
+        watch: {
+            team: {
+                handler: function(val) {
+                    this.changeCenterSkill();
+                    val.calculateTeamAttribute();
+                    console.log(this.team.teamAttribute);
+                    this.$events.$emit('getTeam', val);
+                },
+                deep: true
+            }
+        },
         mounted: function() {
             this.getUnitInfo();
+            this.$events.$on('getLiveSettingInfo', liveSettingInfo => {
+                let notesWeight = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                if (liveSettingInfo.live1)
+                    this.addNotesWeight(notesWeight, liveSettingInfo.live1.notes_weight);
+                if (liveSettingInfo.live2)
+                    this.addNotesWeight(notesWeight, liveSettingInfo.live2.notes_weight);
+                if (liveSettingInfo.live3)
+                    this.addNotesWeight(notesWeight, liveSettingInfo.live3.notes_weight);
+                this.changeNotesWeight(notesWeight);
+            });
         }
     }
 </script>
 
-<style>
+<style scoped>
     #file-input-addon {
         border-left-color: rgb(204, 204, 204);
         border-left-style: solid;
         border-left-width: 1px;
+    }
+    
+    .input-sm {
+        font-size: 14px;
+        height: 24px;
+    }
+    
+    table {
+        table-layout: fixed;
+    }
+    
+    th,
+    td {
+        text-align: center;
+        vertical-align: middle!important;
+        border-top: none !important;
+        padding: 4px 1px 1px 1px!important;
+    }
+    
+    .form-control[readonly] {
+        background-color: #fafafa;
+    }
+    
+    .attr-box-smile {
+        width: 80%;
+        margin: auto;
+        border: 1px solid #E91E63;
+        border-radius: 10px;
+        background-color: #E91E63;
+        color: white;
+        box-shadow: 0 0 2px red;
+    }
+    
+    .attr-box-pure {
+        width: 80%;
+        margin: auto;
+        border: 1px solid #4CAF50;
+        border-radius: 10px;
+        background-color: #4CAF50;
+        color: white;
+        box-shadow: 0 0 2px green;
+    }
+    
+    .attr-box-cool {
+        width: 80%;
+        margin: auto;
+        border: 1px solid #2196F3;
+        border-radius: 10px;
+        background-color: #2196F3;
+        color: white;
+        box-shadow: 0 0 2px blue;
+    }
+    
+    _::-webkit-full-page-media,
+    _:future,
+     :root .safari_only .table,
+    .input-sm {
+        font-size: 11px;
     }
 </style>

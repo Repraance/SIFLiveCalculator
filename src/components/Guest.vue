@@ -5,7 +5,7 @@
             <label for="guest" class="checkbox-custom-label">Add guest</label>
         </div>
         <div class="well well-sm" style="margin-bottom: 10px" id="guestLeaderSkill">
-            <h4>Guest leader skill</h4>
+            <h4>Guest Center Skill</h4>
             Team {{ teamDefaultAttribute }} attribute up by 9% or 12% of
             <br>
             <input id="guestSmile" class="radio-custom" name="guestEffectType" type="radio" value="1" onclick="updateLiveLists()">
@@ -16,7 +16,7 @@
             <label for="guestCool" class="radio-custom-label"><span style="color: #2196F3">Cool</span></label>
         </div>
         <div class="well well-sm" style="margin-bottom: 10px" id="guestLeaderExtraSkill">
-            <h4>Guest leader extra skill</h4>
+            <h4>Guest Center Extra Skill</h4>
             Team {{ teamDefaultAttribute }} attribute up by 3% of</span>
             <div>
                 <input id="guestMuse" class="radio-custom" name="guestExtraEffectType" type="radio" value="4" onclick="updateLiveLists()">
@@ -67,12 +67,6 @@
                 } else
                     return 'nulll';
             }
-        },
-        mounted: function() {
-            this.$events.on('getLive', live => {
-                this.live = live.name;
-                console.log(live);
-            })
         }
 
     }
