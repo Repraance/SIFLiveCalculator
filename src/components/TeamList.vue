@@ -211,7 +211,6 @@
 
 <script>
     import cardSelect from './CardSelect.vue';
-    import guest from './Guest.vue';
 
     import {
         attributeIndex,
@@ -262,8 +261,7 @@
             }
         },
         components: {
-            'card-select': cardSelect,
-            'guest': guest
+            'card-select': cardSelect
         },
         methods: {
             selectFile: function(event) {
