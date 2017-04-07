@@ -17,17 +17,21 @@ export default class Team {
                 'gemskill': 0,
                 'gemacc': 0,
                 'originalCardInfo': null
-            }
+            };
         }
         this.teamAttribute = {
-                'smile': 0,
-                'pure': 0,
-                'cool': 0,
-                'smile_string': '　',
-                'pure_string': '　',
-                'cool_string': '　',
-            },
-            this.guest = null;
+            'smile': 0,
+            'pure': 0,
+            'cool': 0,
+            'smile_string': '　',
+            'pure_string': '　',
+            'cool_string': '　',
+        };
+        this.guestInfo = {
+            'guestEnabled': false,
+            'effectType': null,
+            'extraEffectType': null
+        };
     }
 
     calculateTeamAttribute() {
@@ -53,8 +57,7 @@ export default class Team {
         }
 
         // Get guest info
-        let guest = false;
-        if (guest) {
+        if (this.guestInfo.guestEnabled) {
             let guestEffectTypeId = 0;
             let guestExtraEffectTypeId = 0;
         }
@@ -111,22 +114,22 @@ export default class Team {
                 let guestleaderSkillBonus = 0;
                 let guestLeaderExtraSkillBonus = 0;
 
-                if (guest) {
+                if (this.guestInfo.guestEnabled) {
                     // bonus from guest's leader skill
-                    if (!(isNaN(guestEffectTypeId))) {
-                        let guestEffectType = attributeIndex[guestEffectTypeId];
+                    if (this.guestInfo.effectType) {
+                        let guestEffectType = attributeIndex[this.guestInfo.effectType];
                         // If old leader skill e.g.クールPが9%UPする
-                        if (guestEffectTypeId == leaderAttributeId) {
+                        if (this.guestInfo.effectType == leaderAttributeId) {
                             guestleaderSkillBonus = Math.ceil(gemBonusAttribute * 0.09);
                             // If new leader skill e.g.スマイルPの12%分クールPがUPする
                         } else {
-                            guestleaderSkillBonus = Math.ceil(parseInt(member[guestEffectType]) * 0.12);
+                            guestleaderSkillBonus = Math.ceil(member[guestEffectType] * 0.12);
                         }
                     }
                     // bonus from guest's extra leader skill
-                    if (!(isNaN(guestExtraEffectTypeId))) {
-                        if (member.originalCardInfo.member_tag.indexOf(guestExtraEffectTypeId) > -1) {
-                            if (guestExtraEffectTypeId == 4 || guestExtraEffectTypeId == 5) {
+                    if (this.guestInfo.extraEffectType) {
+                        if (member.originalCardInfo.member_tag.indexOf(this.guestInfo.extraEffectType) > -1) {
+                            if (this.guestInfo.extraEffectType == 4 || this.guestInfo.extraEffectType == 5) {
                                 guestLeaderExtraSkillBonus = Math.ceil(gemBonusAttribute * 0.03);
                             } else {
                                 guestLeaderExtraSkillBonus = Math.ceil(gemBonusAttribute * 0.06);

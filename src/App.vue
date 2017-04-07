@@ -8,17 +8,19 @@
                 <div class="row">
                     <live-list></live-list>
                 </div>
-                <div>
+                <div class="row">
                     <team-list></team-list>
                 </div>
                 <div class="row">
-                    <calculating></calculating>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <calculating></calculating>
+                    </div>
                 </div>
                 <card-select></card-select>
             </div>
         </div>
     </div>
-    
+
 </template>
 
 <script>
@@ -26,6 +28,7 @@
     import teamList from './components/TeamList.vue';
     import calculating from './components/Calculating.vue'
     import cardSelect from './components/CardSelect.vue';
+    import guest from './components/Guest.vue';
 
     let sdsd = [11, 2, 2, 2, 3, 4, 5, 56, 1.4];
 
@@ -35,7 +38,8 @@
             'live-list': liveList,
             'team-list': teamList,
             'card-select': cardSelect,
-            'calculating': calculating
+            'calculating': calculating,
+            'guest': guest
         },
         data() {
             return {

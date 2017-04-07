@@ -1,126 +1,124 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <div class="well well-sm mb10">
-
-                    <table class="table team-list" style="margin-top: 0px">
-                        <caption>
-                            <div class="form-inline text-right">
-                                <p style="float: left; margin-left: 10px; margin-right: 10px; margin-bottom: 4px"><b>Team Info</b></p>
-                                <div class="input-group" style="margin-bottom: 4px">
-                                    <input type="text" class="form-control" :placeholder="fileName" aria-describedby="file-input-addon" disabled>
-                                    <label class="btn btn-default btn-file input-group-addon" id="file-input-addon">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <div class="well well-sm mb10">
+                <table class="table team-list" style="margin-top: 0px">
+                    <caption>
+                        <div class="form-inline text-right">
+                            <p style="float: left; margin-left: 10px; margin-right: 10px; margin-bottom: 4px"><b>Team Info</b></p>
+                            <div class="input-group" style="margin-bottom: 4px">
+                                <input type="text" class="form-control" :placeholder="fileName" aria-describedby="file-input-addon" disabled>
+                                <label class="btn btn-default btn-file input-group-addon" id="file-input-addon">
                                         <span class="glyphicon glyphicon-folder-open"></span>
                                         Choose File
                                         <input type="file" style="display: none" accept=".sd" v-on:change="selectFile">
                                     </label>
-                                </div>
-                                <button class="btn btn-default" style="margin-bottom: 4px" v-on:click="loadFile">Load File</button>
-                                <button class="btn btn-default" style="margin-bottom: 4px">Save File</button>
-
                             </div>
-                        </caption>
+                            <button class="btn btn-default" style="margin-bottom: 4px" v-on:click="loadFile">Load File</button>
+                            <button class="btn btn-default" style="margin-bottom: 4px">Save File</button>
 
-                        <tbody>
-                            <tr id="weight">
-                                <th>Weight</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model:number="notesWeight[i]">
-                                </td>
-                            </tr>
+                        </div>
+                    </caption>
 
-                            <tr id="avatar">
-                                <th>Avatar<br><span style="font-weight: normal;font-size: 10px">Click to<br>change</span></th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <img v-bind:src="avatarSrc[i]" v-bind:id="'avatar-' + i" class="img-responsive" @click="openCardSelectModal">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Rankup</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input v-bind:id="'rankup-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].mezame" @click="changeAttribute">
-                                    <label v-bind:for="'rankup-' + i" class="checkbox-custom-label">Yes</label>
-                                </td>
-                            </tr>
-                            <tr id="smile-value">
-                                <th style="color: #E91E63">Smile</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].smile" style="color: #E91E63" readonly>
-                                </td>
-                            </tr>
-                            <tr id="pure-value">
-                                <th style="color: #4CAF50">Pure</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].pure" style="color: #4CAF50" readonly>
-                                </td>
-                            </tr>
-                            <tr id="cool-value">
-                                <th style="color: #2196F3">Cool</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].cool" style="color: #2196F3" readonly>
-                                </td>
-                            </tr>
-                            <tr id="skill-lv">
-                                <th>Skill Lv</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="number" class="form-control input-sm" min="1" max="8" step="1" v-model.number="team.memberInfo[i].skilllevel">
-                                </td>
-                            </tr>
-                            <tr id="fixed-value">
-                                <th>Fixed</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <select name="fixed-value" class="form-control input-sm" v-model.number="team.memberInfo[i].gemnum">
-                                <option value="0">0</option>
-                                <option value="200">200</option>
-                                <option value="450">450</option>
-                                <option value="650">650</option>
-                            </select>
-                                </td>
-                            </tr>
-                            <tr id="single-percent">
-                                <th>Single</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <select name="single-percent" class="form-control input-sm" v-model.number="team.memberInfo[i].gemsinglepercent">
-                                <option value="0">0</option>
-                                <option value="0.1">10%</option>
-                                <option value="0.16">16%</option>
-                                <option value="0.26">26%</option>
-                            </select>
-                                </td>
-                            </tr>
-                            <tr id="total-percent">
-                                <th>Total</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <select name="total-percent" class="form-control input-sm" v-model.number="team.memberInfo[i].gemallpercent">
-                                <option value="0">0</option>
-                                <option value="0.018">1.8%</option>
-                                <option value="0.024">2.4%</option>
-                                <option value="0.042">4.2%</option>
-                            </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Skill</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input v-bind:id="'charm-heal-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].gemskill">
-                                    <label v-bind:for="'charm-heal-' + i" class="checkbox-custom-label">Yes</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Trick</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input v-bind:id="'trick-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].gemacc">
-                                    <label v-bind:for="'trick-' + i" class="checkbox-custom-label">Yes</label>
-                                </td>
-                            </tr>
-                            <tr id="slots">
-                                <th>Slots</th>
-                                <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                    <input type="text" class="form-control input-sm" v-model="slots[i]">
-                                </td>
-                            </tr>
-                            <!--
+                    <tbody>
+                        <tr id="weight">
+                            <th style="width: 12%">Weight</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input type="text" class="form-control input-sm" v-model:number="notesWeight[i]">
+                            </td>
+                        </tr>
+
+                        <tr id="avatar">
+                            <th>Avatar<br><span style="font-weight: normal;font-size: 10px">Click to<br>change</span></th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <img v-bind:src="avatarSrc[i]" v-bind:id="'avatar-' + i" class="img-responsive" @click="openCardSelectModal">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Rankup</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input v-bind:id="'rankup-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].mezame" @click="changeAttribute">
+                                <label v-bind:for="'rankup-' + i" class="checkbox-custom-label">Yes</label>
+                            </td>
+                        </tr>
+                        <tr id="smile-value">
+                            <th style="color: #E91E63">Smile</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].smile" style="color: #E91E63" readonly>
+                            </td>
+                        </tr>
+                        <tr id="pure-value">
+                            <th style="color: #4CAF50">Pure</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].pure" style="color: #4CAF50" readonly>
+                            </td>
+                        </tr>
+                        <tr id="cool-value">
+                            <th style="color: #2196F3">Cool</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input type="text" class="form-control input-sm" v-model.number="team.memberInfo[i].cool" style="color: #2196F3" readonly>
+                            </td>
+                        </tr>
+                        <tr id="skill-lv">
+                            <th>Skill Lv</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input type="number" class="form-control input-sm" min="1" max="8" step="1" v-model.number="team.memberInfo[i].skilllevel">
+                            </td>
+                        </tr>
+                        <tr id="fixed-value">
+                            <th>Fixed</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <select name="fixed-value" class="form-control input-sm" v-model.number="team.memberInfo[i].gemnum">
+                                        <option value="0">0</option>
+                                        <option value="200">200</option>
+                                        <option value="450">450</option>
+                                        <option value="650">650</option>
+                                    </select>
+                            </td>
+                        </tr>
+                        <tr id="single-percent">
+                            <th>Single</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <select name="single-percent" class="form-control input-sm" v-model.number="team.memberInfo[i].gemsinglepercent">
+                                        <option value="0">0</option>
+                                        <option value="0.1">10%</option>
+                                        <option value="0.16">16%</option>
+                                        <option value="0.26">26%</option>
+                                    </select>
+                            </td>
+                        </tr>
+                        <tr id="total-percent">
+                            <th>Total</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <select name="total-percent" class="form-control input-sm" v-model.number="team.memberInfo[i].gemallpercent">
+                                        <option value="0">0</option>
+                                        <option value="0.018">1.8%</option>
+                                        <option value="0.024">2.4%</option>
+                                        <option value="0.042">4.2%</option>
+                                    </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Skill</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input v-bind:id="'charm-heal-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].gemskill">
+                                <label v-bind:for="'charm-heal-' + i" class="checkbox-custom-label">Yes</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Trick</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input v-bind:id="'trick-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].gemacc">
+                                <label v-bind:for="'trick-' + i" class="checkbox-custom-label">Yes</label>
+                            </td>
+                        </tr>
+                        <tr id="slots">
+                            <th>Slots</th>
+                            <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                                <input type="text" class="form-control input-sm" v-model="slots[i]">
+                            </td>
+                        </tr>
+                        <!--
                             <tr id="strength">
                                 <th>Strength</th>
                                 <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
@@ -146,41 +144,68 @@
                                 </td>
                             </tr>
                             -->
-                            <tr id="center-skill">
-                                <th>Center Skill</th>
-                                <td colspan="9">
-                                    {{ centerSkill }}
-                                </td>
-                            </tr>
-                            <tr id="team-attr">
-                                <th>Team Attribute</th>
-                                <td colspan="3">
-                                    <div class="attr-box-smile">
-                                        {{ team.teamAttribute.smile_string }}
-                                    </div>
-                                </td>
-                                <td colspan="3">
-                                    <div class="attr-box-pure">
-                                        {{ team.teamAttribute.pure_string }}
-                                    </div>
-                                </td>
-                                <td colspan="3">
-                                    <div class="attr-box-cool">
-                                        {{ team.teamAttribute.cool_string }}
-                                    </div>
-                                </td>
-                            </tr>
+                        <tr id="center-skill">
+                            <th>Center Skill</th>
+                            <td colspan="9">
+                                {{ centerSkill }}
+                            </td>
+                        </tr>
+                        <tr id="team-attr">
+                            <th>Team Attribute</th>
+                            <td colspan="3">
+                                <div class="attr-box-smile">
+                                    {{ team.teamAttribute.smile_string }}
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div class="attr-box-pure">
+                                    {{ team.teamAttribute.pure_string }}
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div class="attr-box-cool">
+                                    {{ team.teamAttribute.cool_string }}
+                                </div>
+                            </td>
+                        </tr>
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <guest></guest>
+                    </tbody>
+                </table>
             </div>
         </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="well well-sm">
+                <div class="well well-sm" style="margin-bottom: 10px">
+                    <input id="guest" class="checkbox-custom" type="checkbox" v-model="team.guestInfo.guestEnabled">
+                    <label for="guest" class="checkbox-custom-label">Add guest</label>
+                </div>
+                <div class="well well-sm" style="margin-bottom: 10px;padding-top: 0px">
+                    <h4>Guest Center Skill</h4>
+                    <h5>Team {{ teamDefaultAttribute }} attribute up by 9% or 12% of</h5>
 
+                    <div v-for="(option, index) in guestOptions" v-if="index >= 11" style="display: inline">
+                        <input :value="option[1]" class="radio-custom" type="radio" :id="'guest' + option[0]" v-model="team.guestInfo.effectType" :disabled="!team.guestInfo.guestEnabled">
+                        <label :for="'guest' + option[0]" class="radio-custom-label" :style="{color: option[2]}">{{ option[0] }}</label>
+                    </div>
+
+                </div>
+                <div class="well well-sm" style="margin-bottom: 10px;padding-top: 0px">
+                    <h4>Guest Center Extra Skill</h4>
+                    <h5>Team {{ teamDefaultAttribute }} attribute up by 3% of</h5>
+                    <div v-for="(option, index) in guestOptions" v-if="index >= 9 && index <= 10" style="display: inline">
+                        <input :value="option[1]" class="radio-custom" type="radio" :id="'guest' + option[0]" v-model="team.guestInfo.extraEffectType" :disabled="!team.guestInfo.guestEnabled">
+                        <label :for="'guest' + option[0]" class="radio-custom-label">{{ option[0] }}</label>
+                    </div>
+                    <hr>
+                    <h5>Team {{ teamDefaultAttribute }} attribute up by 6% of</h5>
+                    <div v-for="(option, index) in guestOptions" v-if="index < 9" style="display: inline">
+                        <input :value="option[1]" class="radio-custom" type="radio" :id="'guest' + option[0]" v-model="team.guestInfo.extraEffectType" :disabled="!team.guestInfo.guestEnabled">
+                        <label :for="'guest' + option[0]" class="radio-custom-label">{{ option[0] }}</label>
+                        <div style="height: 2px" v-if="(index + 1) % 3 == 0"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -192,21 +217,21 @@
         attributeIndex,
         memberTagIndex,
         japaneseAttributeIndex
-    } from '../lib/indexes.js'
+    } from '../lib/indexes.js';
 
     import {
         teamInfoSample,
         noteWeightSample
-    } from '../lib/samples.js'
+    } from '../lib/samples.js';
 
-    import _ from 'lodash'
+    import _ from 'lodash';
 
     import {
         changeAttributeWithRankup
-    } from '../lib/misc.js'
+    } from '../lib/misc.js';
 
-    import LiveCalculator from '../lib/calculating.js'
-    import Team from '../lib/team.js'
+    import Team from '../lib/team.js';
+
     export default {
         name: 'team-list',
         data: function() {
@@ -215,7 +240,25 @@
                 unitInfo: null,
                 notesWeight: [],
                 centerSkill: 'N / A',
-                team: new Team()
+                teamDefaultAttribute: 'default',
+                team: new Team(),
+                guestEnabled: false,
+                guestOptions: [
+                    ['1st Year', 1],
+                    ['2nd Year', 2],
+                    ['3rd Year', 3],
+                    ['Printemps', 6],
+                    ['lily white', 7],
+                    ['BiBi', 8],
+                    ['CYaRon！', 9],
+                    ['AZALEA', 10],
+                    ['Guilty Kiss', 11],
+                    ["μ's", 4],
+                    ['Aqours', 5],
+                    ['Smile', 1, '#E91E63'],
+                    ['Pure', 2, '#4CAF50'],
+                    ['Cool', 3, '#2196F3']
+                ]
             }
         },
         components: {
@@ -292,6 +335,9 @@
                         let extraCenterSkillDescription = memberTagIndex[memberTagId] + 'のメンバーはさらに' + japaneseAttributeIndex[effectType] + 'Pが' + effectValue + '%UPする'
                         centerSkillDescription += ' + ' + extraCenterSkillDescription;
                     }
+                    this.teamDefaultAttribute = this.team.memberInfo[4].attribute;
+                } else {
+                    this.teamDefaultAttribute = 'default';
                 }
                 this.centerSkill = centerSkillDescription;
             }
@@ -386,12 +432,12 @@
             this.getUnitInfo();
             this.$events.$on('getLiveSettingInfo', liveSettingInfo => {
                 let notesWeight = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                if (liveSettingInfo.live1)
-                    this.addNotesWeight(notesWeight, liveSettingInfo.live1.notes_weight);
-                if (liveSettingInfo.live2)
-                    this.addNotesWeight(notesWeight, liveSettingInfo.live2.notes_weight);
-                if (liveSettingInfo.live3)
-                    this.addNotesWeight(notesWeight, liveSettingInfo.live3.notes_weight);
+                if (liveSettingInfo.live1.liveInfo)
+                    this.addNotesWeight(notesWeight, liveSettingInfo.live1.liveInfo.notes_weight);
+                if (liveSettingInfo.live2.liveInfo)
+                    this.addNotesWeight(notesWeight, liveSettingInfo.live2.liveInfo.notes_weight);
+                if (liveSettingInfo.live3.liveInfo)
+                    this.addNotesWeight(notesWeight, liveSettingInfo.live3.liveInfo.notes_weight);
                 this.changeNotesWeight(notesWeight);
             });
         }
@@ -399,6 +445,19 @@
 </script>
 
 <style scoped>
+    hr {
+        margin: 10px;
+    }
+    
+    h5 {
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
+    
+    .guest-option-box {
+        margin-top: 4px;
+    }
+    
     #file-input-addon {
         border-left-color: rgb(204, 204, 204);
         border-left-style: solid;

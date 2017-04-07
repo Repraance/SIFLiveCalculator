@@ -1,46 +1,71 @@
 <template>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div>
         <div style="margin-bottom: 10px">
             <button type="button" class="btn btn-large btn-block btn-primary" @click="calculate">Calculate</button>
         </div>
         <div class="well well-sm">
-            <p><b id="result">Team Attribute: {{test}}</b></p>
-            <p><b id="result">Expected score: </b></p>
+            <p><b id="result">Expected score: {{ expectedScore }}</b></p>
         </div>
     </div>
 </template>
 
 <script>
-    import LiveCalculator from '../lib/calculating.js'
+    import LiveCalculator from '../lib/liveCalculator.js'
     export default {
         data() {
             return {
                 liveSettingInfo: null,
                 team: null,
-                guestInfo: null,
                 unitInfo: null,
-                test: null,
-                liveCalculator: new LiveCalculator()
+                liveCalculator: new LiveCalculator(),
+                expectedScore: null
             }
         },
         methods: {
             calculate: function() {
-                this.liveCalculator.setTeam(this.teamInfo);
-                console.log(this.liveCalculator.calculateTotalAttribute(1));
-                console.log(this.liveCalculator.calculateTotalAttribute(2));
-                console.log(this.liveCalculator.calculateTotalAttribute(3));
+                this.liveCalculator.setTeam(this.team);
+                this.liveCalculator.setLiveSettingInfo(this.liveSettingInfo);
+                this.expectedScore = this.liveCalculator.calculate();
+            },
+            getLiveNotes: function(live) {
+                if (live.liveInfo) {
+                    let notesSettingAsset = live.liveInfo.notes_setting_asset;
+                    this.$http.get('assets/json/maps/latest/' + notesSettingAsset).then(
+                        (response) => {
+                            live.liveNotes = response.body;
+                            let NotesCount = live.liveNotes.length;
+                            for (let i = 0; i < NotesCount; i++) {
+                                live.liveNotes[i].timing_sec = parseInt(live.liveNotes[i].timing_sec * 1000);
+                                // hold
+                                if (live.liveNotes[i].effect == 3) {
+                                    live.liveNotes[i].effect_value = parseInt(live.liveNotes[i].effect_value * 1000);
+                                    let holdEnding = _.cloneDeep(live.liveNotes[i]);
+                                    holdEnding.effect_value = live.liveNotes[i].timing_sec;
+                                    holdEnding.timing_sec = live.liveNotes[i].timing_sec + live.liveNotes[i].effect_value + 1;
+                                    holdEnding.effect = 5;
+                                    live.liveNotes.push(holdEnding);
+                                }
+                            }
+                            live.liveNotes.sort(function(x, y) {
+                                return x.timing_sec - y.timing_sec;
+                            })
+                            console.log(live.liveNotes);
+                        });
+                }
+            },
+            addHoldEnding: function(live) {
+
             }
         },
         mounted: function() {
-            //this.$data.liveCalculator = new LiveCalculator();
             this.$events.$on('getLiveSettingInfo', liveSettingInfo => {
-                this.liveSettingInfo = liveSettingInfo;
-                console.log('Calculating received liveSettingInfo', this.liveSettingInfo);
+                this.liveSettingInfo = _.cloneDeep(liveSettingInfo);
+                console.log('Calculating received liveSettingInfo', liveSettingInfo);
+                this.getLiveNotes(this.liveSettingInfo.live1);
             });
             this.$events.$on('getTeam', team => {
                 this.team = team;
                 console.log('Calculating component received team', this.team);
-                //this.calculate();
             });
         }
 

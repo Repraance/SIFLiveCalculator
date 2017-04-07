@@ -9,7 +9,7 @@
                 </div>
                 <div class="modal-body" style="padding: 6px 3px 3px 6px">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="row" style="margin-left: 0px; margin-right: 0px; margin-bottom: 0px">
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-left: 0px; padding-right: 0px">
                                     <div class="well well-sm" style="margin-bottom: 8px; margin-left: 3px; margin-right: 3px">
@@ -272,3 +272,9 @@
         }
     }
 </script>
+
+<style scoped>
+    hr {
+        margin: 10px;
+    }
+</style>

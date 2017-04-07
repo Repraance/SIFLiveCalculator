@@ -5,9 +5,9 @@
                 <div style="margin-bottom: 10px; margin-top: 10px">
                     <div style="margin-bottom: 4px; text-align: right">
                         <span style="font-size: 18px; float: left">First Live</span>
-                        <input id="score1" class="radio-custom" type="radio" :disabled="!liveSettingInfo.bonusType" value="1" v-model="liveSettingInfo.mfScoreUpIndex">
+                        <input id="score1" class="radio-custom" type="radio" :disabled="liveSettingInfo.bonusType == 1 " value="1" v-model.number="liveSettingInfo.mfScoreUpIndex">
                         <label for="score1" class="radio-custom-label">Score Up</label>
-                        <input id="skill1" class="radio-custom" type="radio" :disabled="!liveSettingInfo.bonusType" value="1" v-model="liveSettingInfo.mfSkillUpIndex">
+                        <input id="skill1" class="radio-custom" type="radio" :disabled="liveSettingInfo.bonusType == 1" value="1" v-model.number="liveSettingInfo.mfSkillUpIndex">
                         <label for="skill1" class="radio-custom-label">Skill Up</label>
                     </div>
                     <select id="liveList1" class="form-control" v-model.number="liveSelected1" v-bind:style="{color: liveSelectedColor1}">
@@ -19,13 +19,13 @@
                 <div style="margin-bottom: 10px">
                     <div style="margin-bottom: 4px; text-align: right">
                         <span style="font-size: 18px; float: left">Second Live</span>
-                        <input id="score2" class="radio-custom" type="radio" :disabled="!liveSettingInfo.bonusType" value="2" v-model="liveSettingInfo.mfScoreUpIndex">
+                        <input id="score2" class="radio-custom" type="radio" :disabled="liveSettingInfo.bonusType != 2" value="2" v-model.number="liveSettingInfo.mfScoreUpIndex">
                         <label for="score2" class="radio-custom-label">Score Up</label>
-                        <input id="skill2" class="radio-custom" type="radio" :disabled="!liveSettingInfo.bonusType" value="2" v-model="liveSettingInfo.mfSkillUpIndex">
+                        <input id="skill2" class="radio-custom" type="radio" :disabled="liveSettingInfo.bonusType != 2" value="2" v-model.number="liveSettingInfo.mfSkillUpIndex">
                         <label for="skill2" class="radio-custom-label">Skill Up</label>
                     </div>
 
-                    <select id="liveList2" class="form-control" :disabled="!liveSettingInfo.bonusType" v-model.number="liveSelected2" v-bind:style="{color: liveSelectedColor2}">
+                    <select id="liveList2" class="form-control" :disabled="liveSettingInfo.bonusType != 2" v-model.number="liveSelected2" v-bind:style="{color: liveSelectedColor2}">
                             <option v-for="(live, index) in liveSettings" v-if="live.member_category == livesFilterArtist && live.difficulty == livesFilterDifficulty && live.attribute_icon_id == livesFilterAttribute" v-bind:value="index" v-bind:style="{color: colorIndex[live.attribute_icon_id]}">
                                 {{ live.name + ' [' +live.difficulty_text + '] [' + live.s_rank_combo + ']' }}
                             </option>
@@ -35,13 +35,13 @@
                 <div style="margin-bottom: 10px">
                     <div style="margin-bottom: 4px; text-align: right">
                         <span style="font-size: 18px; float: left">Third Live</span>
-                        <input id="score3" class="radio-custom" type="radio" :disabled="!liveSettingInfo.bonusType" value="3" v-model="liveSettingInfo.mfScoreUpIndex">
+                        <input id="score3" class="radio-custom" type="radio" :disabled="liveSettingInfo.bonusType != 2" value="3" v-model.number="liveSettingInfo.mfScoreUpIndex">
                         <label for="score3" class="radio-custom-label">Score Up</label>
-                        <input id="skill3" class="radio-custom" type="radio" :disabled="!liveSettingInfo.bonusType" value="3" v-model="liveSettingInfo.mfSkillUpIndex">
+                        <input id="skill3" class="radio-custom" type="radio" :disabled="liveSettingInfo.bonusType != 2" value="3" v-model.number="liveSettingInfo.mfSkillUpIndex">
                         <label for="skill3" class="radio-custom-label">Skill Up</label>
                     </div>
 
-                    <select id="liveList3" class="form-control" :disabled="!liveSettingInfo.bonusType" v-model.number="liveSelected3" v-bind:style="{color: liveSelectedColor3}">
+                    <select id="liveList3" class="form-control" :disabled="liveSettingInfo.bonusType != 2" v-model.number="liveSelected3" v-bind:style="{color: liveSelectedColor3}">
                             <option v-for="(live, index) in liveSettings" v-if="live.member_category == livesFilterArtist && live.difficulty == livesFilterDifficulty && live.attribute_icon_id == livesFilterAttribute" v-bind:value="index" v-bind:style="{color: colorIndex[live.attribute_icon_id]}">
                                 {{ live.name + ' [' +live.difficulty_text + '] [' + live.s_rank_combo + ']' }}
                             </option>
@@ -70,15 +70,15 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 10px; text-align: center">
-                        <input id="cf" class="radio-custom" type="radio" value="0" v-model.number="liveSettingInfo.bonusType">
+                        <input id="cf" class="radio-custom" type="radio" value="1" v-model.number="liveSettingInfo.bonusType">
                         <label for="cf" class="radio-custom-label">Challenge Festival (1 Live with Score Up and Skill Up)</label>
                     </div>
                     <div style="margin-bottom: 10px; text-align: center">
-                        <input id="mf" class="radio-custom" type="radio" value="1" v-model.number="liveSettingInfo.bonusType">
+                        <input id="mf" class="radio-custom" type="radio" value="2" v-model.number="liveSettingInfo.bonusType">
                         <label for="mf" class="radio-custom-label" title="And you could choose random guest bonus above the live list">Medley Festival (3 Lives with Score Up, Skill Up and Optional Random Guest Bonus)</label>
                     </div>
-                        <button class="btn btn-danger btn-block" v-on:click="resetAllBonus">Reset All Bonus</button>
-                </div> 
+                    <button class="btn btn-danger btn-block" v-on:click="resetAllBonus">Reset All Bonus</button>
+                </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -136,13 +136,22 @@
                     3: '#2196F3'
                 },
                 liveSettingInfo: {
-                    'live1': null,
-                    'live2': null,
-                    'live3': null,
+                    'live1': {
+                        'liveInfo': null,
+                        'liveNotes': null
+                    },
+                    'live2': {
+                        'liveInfo': null,
+                        'liveNotes': null
+                    },
+                    'live3': {
+                        'liveInfo': null,
+                        'liveNotes': null
+                    },
                     'perfectRate': 0.9,
                     'notFC': false,
                     'maxCombo': 0,
-                    'bonusType': null,
+                    'bonusType': 0,
                     'mfScoreUpIndex': null,
                     'mfSkillUpIndex': null
                 },
@@ -175,7 +184,7 @@
                 let combo = 0;
                 if (this.liveSelected1)
                     combo += this.liveSettings[this.liveSelected1].s_rank_combo;
-                if (this.bonusType) {
+                if (this.liveSettingInfo.bonusType) {
                     if (this.liveSelected2)
                         combo += this.liveSettings[this.liveSelected2].s_rank_combo;
                     if (this.liveSelected3)
@@ -194,14 +203,14 @@
             livesFilterDifficulty: function() {
                 this.resetLiveSelected();
             },
-            mfScoreUpIndex: function() {
-                if (this.mfScoreUpIndex == this.mfSkillUpIndex) {
-                    this.mfSkillUpIndex = null;
+            'liveSettingInfo.mfScoreUpIndex': function() {
+                if (this.liveSettingInfo.mfScoreUpIndex == this.liveSettingInfo.mfSkillUpIndex) {
+                    this.liveSettingInfo.mfSkillUpIndex = null;
                 }
             },
-            mfSkillUpIndex: function() {
-                if (this.mfSkillUpIndex == this.mfScoreUpIndex) {
-                    this.mfScoreUpIndex = null;
+            'liveSettingInfo.mfSkillUpIndex': function() {
+                if (this.liveSettingInfo.mfSkillUpIndex == this.liveSettingInfo.mfScoreUpIndex) {
+                    this.liveSettingInfo.mfScoreUpIndex = null;
                 }
             },
             totalCombo: function() {
@@ -209,27 +218,35 @@
             },
             liveSelected1: function() {
                 if (this.liveSelected1) {
-                    this.liveSettingInfo.live1 = this.liveSettings[this.liveSelected1];
+                    this.liveSettingInfo.live1.liveInfo = this.liveSettings[this.liveSelected1];
                 } else {
-                    this.liveSettingInfo.live1 = null;
+                    this.liveSettingInfo.live1.liveInfo = null;
+                    console.log('not selected')
                 }
             },
             liveSelected2: function() {
                 if (this.liveSelected2) {
-                    this.liveSettingInfo.live2 = this.liveSettings[this.liveSelected2];
+                    this.liveSettingInfo.live2.liveInfo = this.liveSettings[this.liveSelected2];
                 } else {
-                    this.liveSettingInfo.live2 = null;
+                    this.liveSettingInfo.live2.liveInfo = null;
                 }
             },
             liveSelected3: function() {
                 if (this.liveSelected3) {
-                    this.liveSettingInfo.live3 = this.liveSettings[this.liveSelected3];
+                    this.liveSettingInfo.live3.liveInfo = this.liveSettings[this.liveSelected3];
                 } else {
-                    this.liveSettingInfo.live3 = null;
+                    this.liveSettingInfo.live3.liveInfo = null;
                 }
             },
             liveSettingInfo: {
                 handler: function(val) {
+                    if (val.mfSkillUpIndex == val.mfScoreUpIndex) {
+                        val.mfScoreUpIndex = null;
+                    }
+                    if (val.mfScoreUpIndex == val.mfSkillUpIndex) {
+                        val.mfSkillUpIndex = null;
+                    }
+                    console.log(val);
                     this.$events.$emit('getLiveSettingInfo', val);
                 },
                 deep: true
@@ -294,7 +311,7 @@
             resetAllBonus: function() {
                 this.liveSettingInfo.mfScoreUpIndex = null;
                 this.liveSettingInfo.mfSkillUpIndex = null;
-                this.liveSettingInfo.bonusType = null;
+                this.liveSettingInfo.bonusType = 0;
                 this.liveSelected2 = null;
                 this.liveSelected3 = null;
             }
