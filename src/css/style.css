@@ -3,6 +3,36 @@ body {
     line-height: 1.42857143;
 }
 
+.attr-box-smile {
+    width: 80%;
+    margin: auto;
+    border: 1px solid #E91E63;
+    border-radius: 10px;
+    background-color: #E91E63;
+    color: white;
+    box-shadow: 0 0 2px red;
+}
+
+.attr-box-pure {
+    width: 80%;
+    margin: auto;
+    border: 1px solid #4CAF50;
+    border-radius: 10px;
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 0 2px green;
+}
+
+.attr-box-cool {
+    width: 80%;
+    margin: auto;
+    border: 1px solid #2196F3;
+    border-radius: 10px;
+    background-color: #2196F3;
+    color: white;
+    box-shadow: 0 0 2px blue;
+}
+
 .btn {
     line-height: 1.42857143;
 }
@@ -97,6 +127,17 @@ input {
 
 .form-control:disabled {
     opacity: 0.6;
+}
+
+.gutters-5 {
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.gutters-5>.col,
+.gutters-5>[class*="col-"] {
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 @media (max-width: 768px) {

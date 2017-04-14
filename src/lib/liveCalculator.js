@@ -88,7 +88,7 @@ export default class {
 
             let skillInfo = this.team.memberInfo[i].originalCardInfo.skill_info;
             if (skillInfo) {
-                memberInfo[i].skillInfo = _.cloneDeep(skillInfo[this.team.memberInfo[i].skilllevel - 1]);
+                memberInfo[i].skillInfo = JSON.parse(JSON.stringify(skillInfo[this.team.memberInfo[i].skilllevel - 1]));
                 if (this.team.memberInfo[i].gemskill) {
                     if (memberInfo[i].skillInfo.skill_effect_type == 11) {
                         memberInfo[i].skillInfo.effect_value *= 2.5;
@@ -137,6 +137,11 @@ export default class {
             let typeFactor = memberInfo[position].typeFactor;
             let ComboFactor = getComboFactor(currentCombo);
 
+            if (this.liveSettingInfo.notFC && this.liveSettingInfo.maxCombo == currentCombo) {
+                currentCombo = 0;
+                continue;
+            }
+
             // 1 2 4 indicates single note
             if (note.effect == 1 || note.effect == 2 || note.effect == 4) {
                 let perfectScore = Math.floor(basicScore * typeFactor * ComboFactor * 1);
@@ -165,6 +170,12 @@ export default class {
         resultCombo = currentCombo;
         console.log('attributeScore', attributeScore);
 
+        let missCount = 0;
+        if (this.liveSettingInfo.notFC)
+            missCount = Math.floor(totalNoteCount / this.liveSettingInfo.maxCombo);
+
+        console.log('missCount', missCount);
+
         // A hold note has a start and a ending.
         // Only when twice is perfect, the perfect lock could be triggered,
         // in this way the total perfect rate would be a little smaller
@@ -178,13 +189,13 @@ export default class {
         // Calculate skill score
         for (let i = 0; i < 9; i++) {
             let skillInfo = memberInfo[i].skillInfo;
-            console.log(skillInfo);
             if (skillInfo) {
                 let skillExpectedScore = 0;
 
 
                 // 'skill_effect_type': 11 indicates score up skill
                 if (skillInfo.skill_effect_type == 11) {
+                    let totalTriggerValue = 0;
                     switch (skillInfo.trigger_type) {
 
                         case 3: // 'trigger_type': 3 indicates icon
@@ -216,7 +227,7 @@ export default class {
                     }
                 }
                 skillScore += skillExpectedScore;
-                console.log(skillExpectedScore);
+                console.log('skillExpectedScore', skillExpectedScore);
             }
         }
         totalScore = attributeScore + skillScore;

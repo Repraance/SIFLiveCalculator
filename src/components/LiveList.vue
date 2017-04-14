@@ -11,10 +11,10 @@
                         <label for="skill1" class="radio-custom-label">Skill Up</label>
                     </div>
                     <select id="liveList1" class="form-control" v-model.number="liveSelected1" v-bind:style="{color: liveSelectedColor1}">
-                            <option v-for="(live, index) in liveSettings" v-if="live.member_category == livesFilterArtist && live.difficulty == livesFilterDifficulty && live.attribute_icon_id == livesFilterAttribute" v-bind:value="index" v-bind:style="{color: colorIndex[live.attribute_icon_id]}">
-                                {{ live.name + ' [' +live.difficulty_text + '] [' + live.s_rank_combo + ']' }}
-                            </option>
-                        </select>
+                        <option v-for="(live, index) in liveSettings" v-if="live.member_category == livesFilterArtist && live.difficulty == livesFilterDifficulty && live.attribute_icon_id == livesFilterAttribute" v-bind:value="index" v-bind:style="{color: colorIndex[live.attribute_icon_id]}">
+                            {{ live.name + ' [' +live.difficulty_text + '] [' + live.s_rank_combo + ']' }}
+                        </option>
+                    </select>
                 </div>
                 <div style="margin-bottom: 10px">
                     <div style="margin-bottom: 4px; text-align: right">
@@ -26,10 +26,10 @@
                     </div>
 
                     <select id="liveList2" class="form-control" :disabled="liveSettingInfo.bonusType != 2" v-model.number="liveSelected2" v-bind:style="{color: liveSelectedColor2}">
-                            <option v-for="(live, index) in liveSettings" v-if="live.member_category == livesFilterArtist && live.difficulty == livesFilterDifficulty && live.attribute_icon_id == livesFilterAttribute" v-bind:value="index" v-bind:style="{color: colorIndex[live.attribute_icon_id]}">
-                                {{ live.name + ' [' +live.difficulty_text + '] [' + live.s_rank_combo + ']' }}
-                            </option>
-                        </select>
+                        <option v-for="(live, index) in liveSettings" v-if="live.member_category == livesFilterArtist && live.difficulty == livesFilterDifficulty && live.attribute_icon_id == livesFilterAttribute" v-bind:value="index" v-bind:style="{color: colorIndex[live.attribute_icon_id]}">
+                            {{ live.name + ' [' +live.difficulty_text + '] [' + live.s_rank_combo + ']' }}
+                        </option>
+                    </select>
 
                 </div>
                 <div style="margin-bottom: 10px">
@@ -42,10 +42,10 @@
                     </div>
 
                     <select id="liveList3" class="form-control" :disabled="liveSettingInfo.bonusType != 2" v-model.number="liveSelected3" v-bind:style="{color: liveSelectedColor3}">
-                            <option v-for="(live, index) in liveSettings" v-if="live.member_category == livesFilterArtist && live.difficulty == livesFilterDifficulty && live.attribute_icon_id == livesFilterAttribute" v-bind:value="index" v-bind:style="{color: colorIndex[live.attribute_icon_id]}">
-                                {{ live.name + ' [' +live.difficulty_text + '] [' + live.s_rank_combo + ']' }}
-                            </option>
-                        </select>
+                        <option v-for="(live, index) in liveSettings" v-if="live.member_category == livesFilterArtist && live.difficulty == livesFilterDifficulty && live.attribute_icon_id == livesFilterAttribute" v-bind:value="index" v-bind:style="{color: colorIndex[live.attribute_icon_id]}">
+                            {{ live.name + ' [' +live.difficulty_text + '] [' + live.s_rank_combo + ']' }}
+                        </option>
+                    </select>
 
                 </div>
 
@@ -65,7 +65,7 @@
                                         <input id="no-fc" class="checkbox-custom" type="checkbox" v-model="liveSettingInfo.notFC">
                                         <label for="no-fc" class="checkbox-custom-label">Not full combo</label>
                                     </span>
-                                <input type="number" class="form-control" placeholder="Max Combo" v-model.number="liveSettingInfo.maxCombo" aria-describedby="max-combo-addon" :disabled="!liveSettingInfo.notFC" :max="totalCombo" min="0">
+                                <input type="number" class="form-control" placeholder="Max Combo" v-model.number="liveSettingInfo.maxCombo" aria-describedby="max-combo-addon" :disabled="!liveSettingInfo.notFC" :max="totalCombo" min="1">
                             </div>
                         </div>
                     </div>
@@ -136,6 +136,16 @@
                     3: '#2196F3'
                 },
                 liveSettingInfo: {
+                    'lives': [null, {
+                        'liveInfo': null,
+                        'liveNotes': null
+                    }, {
+                        'liveInfo': null,
+                        'liveNotes': null
+                    }, {
+                        'liveInfo': null,
+                        'liveNotes': null
+                    }],
                     'live1': {
                         'liveInfo': null,
                         'liveNotes': null
@@ -150,11 +160,12 @@
                     },
                     'perfectRate': 0.9,
                     'notFC': false,
-                    'maxCombo': 0,
+                    'maxCombo': 1,
                     'bonusType': 0,
                     'mfScoreUpIndex': null,
                     'mfSkillUpIndex': null
                 },
+                liveSelected: [null, null, null],
                 liveSettings: null,
                 liveSelected1: null,
                 liveSelected2: null,

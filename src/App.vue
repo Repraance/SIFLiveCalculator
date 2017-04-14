@@ -14,6 +14,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <calculating></calculating>
+
                     </div>
                 </div>
                 <card-select></card-select>
@@ -27,9 +28,9 @@
     import liveList from './components/LiveList.vue';
     import teamList from './components/TeamList.vue';
     import calculating from './components/Calculating.vue'
-    import cardSelect from './components/CardSelect.vue';
+    import cardSelect from './components/cardSelect.vue';
 
-    let sdsd = [11, 2, 2, 2, 3, 4, 5, 56, 1.4];
+    let sdsd = 'Ch';
 
     export default {
         el: '#app',
@@ -46,3 +47,18 @@
         }
     }
 </script>
+
+<style scoped>
+    .file-button {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+    }
+    
+    .demo-raised-button {
+        width: 100%;
+    }
+</style>

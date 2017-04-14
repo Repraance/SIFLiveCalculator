@@ -11,3 +11,21 @@ export let changeAttributeWithRankup = (member) => {
         member[member.attribute] += member.originalCardInfo.before_love_max;
     }
 }
+
+export let defaultTeamInfo = new Array(10);
+for (let i = 0; i < 9; i++) {
+    defaultTeamInfo[i] = {
+        "smile": 0,
+        "pure": 0,
+        "cool": 0,
+        "cardid": 0,
+        "skilllevel": 1,
+        "mezame": 0,
+        "gemnum": 0,
+        "gemsinglepercent": 0,
+        "gemallpercent": 0,
+        "gemskill": 0,
+        "gemacc": 0
+    }
+}
+defaultTeamInfo[9] = new Object();

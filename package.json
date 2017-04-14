@@ -5,13 +5,16 @@
     "author": "reprance@gmail.com",
     "private": false,
     "scripts": {
-        "dev": "cross-env NODE_ENV=development webpack-dev-server --host 127.0.0.1 --content-base dist/",
+        "dev": "cross-env NODE_ENV=development webpack-dev-server --host 0.0.0.0 --content-base dist/",
         "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
     },
     "dependencies": {
+        "keen-ui": "^1.0.0",
+        "muse-ui": "^2.0.1",
         "vue": "^2.2.1",
         "vue-events": "^3.0.1",
-        "vue-resource": "^1.2.1"
+        "vue-resource": "^1.2.1",
+        "vuedraggable": "^2.9.0"
     },
     "devDependencies": {
         "babel-core": "^6.0.0",

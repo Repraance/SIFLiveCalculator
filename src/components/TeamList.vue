@@ -9,10 +9,10 @@
                             <div class="input-group" style="margin-bottom: 4px">
                                 <input type="text" class="form-control" :placeholder="fileName" aria-describedby="file-input-addon" disabled>
                                 <label class="btn btn-default btn-file input-group-addon" id="file-input-addon">
-                                        <span class="glyphicon glyphicon-folder-open"></span>
-                                        Choose File
-                                        <input type="file" style="display: none" accept=".sd" v-on:change="selectFile">
-                                    </label>
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                    Choose File
+                                    <input type="file" style="display: none" accept=".sd" v-on:change="selectFile">
+                                </label>
                             </div>
                             <button class="btn btn-default" style="margin-bottom: 4px" v-on:click="loadFile">Load File</button>
                             <button class="btn btn-default" style="margin-bottom: 4px">Save File</button>
@@ -31,7 +31,7 @@
                         <tr id="avatar">
                             <th>Avatar<br><span style="font-weight: normal;font-size: 10px">Click to<br>change</span></th>
                             <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                <img v-bind:src="avatarSrc[i]" v-bind:id="'avatar-' + i" class="img-responsive" @click="openCardSelectModal">
+                                <img v-bind:src="avatarSrc[i]" v-bind:id="'avatar-' + i" class="img-responsive" @click="openCardSelectModal(i)">
                             </td>
                         </tr>
                         <tr>
@@ -69,33 +69,33 @@
                             <th>Fixed</th>
                             <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
                                 <select name="fixed-value" class="form-control input-sm" v-model.number="team.memberInfo[i].gemnum">
-                                        <option value="0">0</option>
-                                        <option value="200">200</option>
-                                        <option value="450">450</option>
-                                        <option value="650">650</option>
-                                    </select>
+                                    <option value="0">0</option>
+                                    <option value="200">200</option>
+                                    <option value="450">450</option>
+                                    <option value="650">650</option>
+                                </select>
                             </td>
                         </tr>
                         <tr id="single-percent">
                             <th>Single</th>
                             <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
                                 <select name="single-percent" class="form-control input-sm" v-model.number="team.memberInfo[i].gemsinglepercent">
-                                        <option value="0">0</option>
-                                        <option value="0.1">10%</option>
-                                        <option value="0.16">16%</option>
-                                        <option value="0.26">26%</option>
-                                    </select>
+                                    <option value="0">0</option>
+                                    <option value="0.1">10%</option>
+                                    <option value="0.16">16%</option>
+                                    <option value="0.26">26%</option>
+                                </select>
                             </td>
                         </tr>
                         <tr id="total-percent">
                             <th>Total</th>
                             <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
                                 <select name="total-percent" class="form-control input-sm" v-model.number="team.memberInfo[i].gemallpercent">
-                                        <option value="0">0</option>
-                                        <option value="0.018">1.8%</option>
-                                        <option value="0.024">2.4%</option>
-                                        <option value="0.042">4.2%</option>
-                                    </select>
+                                    <option value="0">0</option>
+                                    <option value="0.018">1.8%</option>
+                                    <option value="0.024">2.4%</option>
+                                    <option value="0.042">4.2%</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -210,8 +210,6 @@
 </template>
 
 <script>
-    import cardSelect from './CardSelect.vue';
-
     import {
         attributeIndex,
         memberTagIndex,
@@ -219,13 +217,7 @@
     } from '../lib/indexes.js';
 
     import {
-        teamInfoSample,
-        noteWeightSample
-    } from '../lib/samples.js';
-
-    import _ from 'lodash';
-
-    import {
+        defaultTeamInfo,
         changeAttributeWithRankup
     } from '../lib/misc.js';
 
@@ -241,6 +233,7 @@
                 centerSkill: 'N / A',
                 teamDefaultAttribute: 'default',
                 team: new Team(),
+                selectedCardIndex: null,
                 guestEnabled: false,
                 guestOptions: [
                     ['1st Year', 1],
@@ -259,9 +252,6 @@
                     ['Cool', 3, '#2196F3']
                 ]
             }
-        },
-        components: {
-            'card-select': cardSelect
         },
         methods: {
             selectFile: function(event) {
@@ -294,9 +284,17 @@
                     }
                 }
             },
-            openCardSelectModal: function() {
-                // jQuery
-                $('#cardSelectModal').modal('toggle');
+            saveCard: function(selectedCard, memberIndex) {
+                let member = this.team.memberInfo[memberIndex];
+                let keys = ['cardid', 'attribute', 'attribute_id', 'originalCardInfo', 'smile', 'pure', 'cool', 'skilllevel', 'mezame'];
+                keys.forEach((key) => {
+                    member[key] = selectedCard[key];
+                })
+                console.log(this.team.memberInfo[memberIndex]);
+            },
+            openCardSelectModal: function(index) {
+                this.selectedCardIndex = index;
+                this.$events.$emit('openCardSelect');
             },
             getUnitInfo: function() {
                 this.$http.get('assets/json/unit.json').then(
@@ -428,7 +426,7 @@
         },
         mounted: function() {
             this.getUnitInfo();
-            this.$events.$on('getLiveSettingInfo', liveSettingInfo => {
+            this.$events.$on('getLiveSettingInfo', (liveSettingInfo) => {
                 let notesWeight = [0, 0, 0, 0, 0, 0, 0, 0, 0];
                 if (liveSettingInfo.live1.liveInfo)
                     this.addNotesWeight(notesWeight, liveSettingInfo.live1.liveInfo.notes_weight);
@@ -437,6 +435,9 @@
                 if (liveSettingInfo.live3.liveInfo)
                     this.addNotesWeight(notesWeight, liveSettingInfo.live3.liveInfo.notes_weight);
                 this.changeNotesWeight(notesWeight);
+            });
+            this.$events.$on('saveCard', (selectedCard) => {
+                this.saveCard(selectedCard, this.selectedCardIndex);
             });
         }
     }
@@ -481,36 +482,6 @@
     
     .form-control[readonly] {
         background-color: #fafafa;
-    }
-    
-    .attr-box-smile {
-        width: 80%;
-        margin: auto;
-        border: 1px solid #E91E63;
-        border-radius: 10px;
-        background-color: #E91E63;
-        color: white;
-        box-shadow: 0 0 2px red;
-    }
-    
-    .attr-box-pure {
-        width: 80%;
-        margin: auto;
-        border: 1px solid #4CAF50;
-        border-radius: 10px;
-        background-color: #4CAF50;
-        color: white;
-        box-shadow: 0 0 2px green;
-    }
-    
-    .attr-box-cool {
-        width: 80%;
-        margin: auto;
-        border: 1px solid #2196F3;
-        border-radius: 10px;
-        background-color: #2196F3;
-        color: white;
-        box-shadow: 0 0 2px blue;
     }
     
     _::-webkit-full-page-media,

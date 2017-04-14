@@ -39,7 +39,7 @@
                                 // hold
                                 if (live.liveNotes[i].effect == 3) {
                                     live.liveNotes[i].effect_value = parseInt(live.liveNotes[i].effect_value * 1000);
-                                    let holdEnding = _.cloneDeep(live.liveNotes[i]);
+                                    let holdEnding = JSON.parse(JSON.stringify(live.liveNotes[i]));
                                     holdEnding.effect_value = live.liveNotes[i].timing_sec;
                                     holdEnding.timing_sec = live.liveNotes[i].timing_sec + live.liveNotes[i].effect_value + 1;
                                     holdEnding.effect = 5;
@@ -59,7 +59,7 @@
         },
         mounted: function() {
             this.$events.$on('getLiveSettingInfo', liveSettingInfo => {
-                this.liveSettingInfo = _.cloneDeep(liveSettingInfo);
+                this.liveSettingInfo = JSON.parse(JSON.stringify(liveSettingInfo));
                 console.log('Calculating received liveSettingInfo', liveSettingInfo);
                 this.getLiveNotes(this.liveSettingInfo.live1);
             });
