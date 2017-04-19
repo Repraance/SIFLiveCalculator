@@ -1,8 +1,10 @@
 <template>
     <div class="jumbotron">
         <div class="container">
-            <nav class="navbar navbar-default navbar-static-top" style="background-color: #fff" role="navigation">
-                <a class="navbar-brand" href="#"><span class="text-center">スクフェス Live Calculator</span></a>
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><span class="text-center">スクフェス Live Calculator</span></a>
+                </div>
             </nav>
             <div id="app">
                 <div class="row">
@@ -28,9 +30,7 @@
     import liveList from './components/LiveList.vue';
     import teamList from './components/TeamList.vue';
     import calculating from './components/Calculating.vue'
-    import cardSelect from './components/cardSelect.vue';
-
-    let sdsd = 'Ch';
+    import cardSelect from './components/CardSelect.vue';
 
     export default {
         el: '#app',
@@ -39,11 +39,6 @@
             'team-list': teamList,
             'card-select': cardSelect,
             'calculating': calculating
-        },
-        data() {
-            return {
-                weight: sdsd
-            }
         }
     }
 </script>

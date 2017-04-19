@@ -18,6 +18,10 @@ module.exports = {
                 }
             },
             {
+                test: /muse-ui.src.*?js$/,
+                loader: 'babel-loader'
+            },
+            {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
@@ -25,6 +29,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\.less$/,
+                loader: 'style-loader!css-loader!less-loader'
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
@@ -36,8 +44,10 @@ module.exports = {
         ]
     },
     resolve: {
+        extensions: ['.js', '.vue', '.json'],
         alias: {
-            'vue$': 'vue/dist/vue.esm.js'
+            'vue$': 'vue/dist/vue.esm.js',
+            'muse-components': 'muse-ui/src'
         }
     },
     devServer: {

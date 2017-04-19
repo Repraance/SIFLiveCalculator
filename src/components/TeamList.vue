@@ -37,8 +37,7 @@
                         <tr>
                             <th>Rankup</th>
                             <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                <input v-bind:id="'rankup-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].mezame" @click="changeAttribute">
-                                <label v-bind:for="'rankup-' + i" class="checkbox-custom-label">Yes</label>
+                                <mu-switch v-model="team.memberInfo[i].mezame" />
                             </td>
                         </tr>
                         <tr id="smile-value">
@@ -101,15 +100,13 @@
                         <tr>
                             <th>Skill</th>
                             <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                <input v-bind:id="'charm-heal-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].gemskill">
-                                <label v-bind:for="'charm-heal-' + i" class="checkbox-custom-label">Yes</label>
+                                <mu-switch v-model.number="team.memberInfo[i].gemskill" />
                             </td>
                         </tr>
                         <tr>
                             <th>Trick</th>
                             <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                                <input v-bind:id="'trick-' + i" class="checkbox-custom" type="checkbox" v-model.number="team.memberInfo[i].gemacc">
-                                <label v-bind:for="'trick-' + i" class="checkbox-custom-label">Yes</label>
+                                <mu-switch v-model.number="team.memberInfo[i].gemacc" />
                             </td>
                         </tr>
                         <tr id="slots">
@@ -230,6 +227,7 @@
                 file: null,
                 unitInfo: null,
                 notesWeight: [],
+                rankup: [0, 0, 0, 0, 0, 0, 0, 0, 0],
                 centerSkill: 'N / A',
                 teamDefaultAttribute: 'default',
                 team: new Team(),
@@ -312,6 +310,7 @@
                 this.notesWeight = weight;
             },
             changeAttribute: function(event) {
+                console.log(event);
                 let index = Number(event.target.id.slice(-1));
                 if (this.team.memberInfo[index].cardid) {
                     changeAttributeWithRankup(this.team.memberInfo[index]);
@@ -416,6 +415,14 @@
         watch: {
             team: {
                 handler: function(val) {
+                    for (let i = 0; i < 9; i++) {
+                        if (val.memberInfo[i].mezame != this.rankup[i]) {
+                            if (val.memberInfo[i].cardid)
+                                changeAttributeWithRankup(this.team.memberInfo[i]);
+                            this.$set(this.rankup, i, val.memberInfo[i].mezame);
+                        }
+                    }
+
                     this.changeCenterSkill();
                     val.calculateTeamAttribute();
                     console.log(this.team.teamAttribute);

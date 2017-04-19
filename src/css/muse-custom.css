@@ -1,44 +1,15 @@
-.mu-dialog {
-    font-size: 14px;
-    width: 90%;
-    max-width: 1024px;
-    position: relative;
-    margin: auto;
-}
-
-.mu-dialog-title {
-    padding: 15px;
-    padding-left: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.117647);
-}
-
-.mu-dialog-body {
-    padding: 0 10px 10px 10px;
-}
-
-.mu-text-field-label {
-    color: rgba(0, 0, 0, .87);
-}
-
-tbody .mu-text-field-content {
-    padding: 0;
-}
-
-.mu-menu-item-wrapper,
-.mu-menu-item-wrapper.active,
-.mu-dropDown-menu-text {
-    color: inherit;
-}
-
-.mu-checkbox-icon {
+.mu-checkbox-icon,
+.mu-radio-icon {
     margin-right: 5px
 }
 
 .mu-checkbox.label-left .mu-checkbox-icon {
-    margin-right: 0;
     margin-left: 5px
 }
 
-.mu-checkbox-label {
+.mu-checkbox-label,
+.mu-radio-label {
     color: inherit;
+    font-size: 14px;
+    margin-right: 5px;
 }

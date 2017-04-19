@@ -1,141 +1,143 @@
 <template>
-    <div>
-        <mu-dialog :open="open" title="SELECT CARD" @close="close">
-            <div class="modal-body">
-                <div class="row gutters-5">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <div class="row gutters-5">
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                <div class="well well-sm">
-                                    <div>
-                                        <mu-checkbox label="μ's" v-model="muse" />
-                                    </div>
-                                    <hr>
-                                    <div>
-                                        <mu-checkbox label="Printemps" v-model="printemps" />
-                                    </div>
-                                    <div>
-                                        <mu-checkbox label="lily white" v-model="lilywhite" />
-                                    </div>
-                                    <div>
-                                        <mu-checkbox label="BiBi" v-model="bibi" />
-                                    </div>
-                                    <hr>
-                                    <div v-for="(option, index) in options" v-if="index < 9">
-                                        <mu-checkbox :label="option" v-model="selectedOptions[option]" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                <div class="well well-sm">
-                                    <div>
-                                        <mu-checkbox label="Aqours" v-model="aqours" />
-                                    </div>
-                                    <hr>
-                                    <div>
-                                        <mu-checkbox label="CYaRon！" v-model="cyaron" />
-                                    </div>
-                                    <div>
-                                        <mu-checkbox label="AZALEA" v-model="azalea" />
-                                    </div>
-                                    <div>
-                                        <mu-checkbox label="Guilty Kiss" v-model="guiltyKiss" />
-                                    </div>
-                                    <hr>
-                                    <div v-for="(option, index) in options" v-if="index >= 9 && index < 18">
-                                        <mu-checkbox :label="option" v-model="selectedOptions[option]" />
+    <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row gutters-5">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="row gutters-5">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="well well-sm">
+                                        <div>
+                                            <mu-checkbox label="μ's" v-model="muse" />
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <mu-checkbox label="Printemps" v-model="printemps" />
+                                        </div>
+                                        <div>
+                                            <mu-checkbox label="lily white" v-model="lilywhite" />
+                                        </div>
+                                        <div>
+                                            <mu-checkbox label="BiBi" v-model="bibi" />
+                                        </div>
+                                        <hr>
+                                        <div v-for="(option, index) in options" v-if="index < 9">
+                                            <mu-checkbox :label="option" v-model="selectedOptions[option]" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                <div class="well well-sm">
-                                    <div>
-                                        <mu-checkbox label="1st Year" v-model="year1st" />
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="well well-sm">
+                                        <div>
+                                            <mu-checkbox label="Aqours" v-model="aqours" />
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <mu-checkbox label="CYaRon！" v-model="cyaron" />
+                                        </div>
+                                        <div>
+                                            <mu-checkbox label="AZALEA" v-model="azalea" />
+                                        </div>
+                                        <div>
+                                            <mu-checkbox label="Guilty Kiss" v-model="guiltyKiss" />
+                                        </div>
+                                        <hr>
+                                        <div v-for="(option, index) in options" v-if="index >= 9 && index < 18">
+                                            <mu-checkbox :label="option" v-model="selectedOptions[option]" />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <mu-checkbox label="2nd Year" v-model="year2nd" />
-                                    </div>
-                                    <div>
-                                        <mu-checkbox label="3rd Year" v-model="year3rd" />
-                                    </div>
-                                    <hr>
-                                    <div v-for="(option, index) in options" v-if="index >= 18 && index < 23">
-                                        <mu-checkbox :label="option" v-model="selectedOptions[option]" />
-                                    </div>
-                                    <hr>
-                                    <div v-for="(option, index) in options" v-if="index >= 23 && index <26">
-                                        <mu-checkbox :label="option[0]" v-model="selectedOptions[option[1]]" />
-                                    </div>
-                                    <hr>
-                                    <div>
-                                        <mu-checkbox label="Rankup" v-model="rankup" />
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="well well-sm">
+                                        <div>
+                                            <mu-checkbox label="1st Year" v-model="year1st" />
+                                        </div>
+                                        <div>
+                                            <mu-checkbox label="2nd Year" v-model="year2nd" />
+                                        </div>
+                                        <div>
+                                            <mu-checkbox label="3rd Year" v-model="year3rd" />
+                                        </div>
+                                        <hr>
+                                        <div v-for="(option, index) in options" v-if="index >= 18 && index < 23">
+                                            <mu-checkbox :label="option" v-model="selectedOptions[option]" />
+                                        </div>
+                                        <hr>
+                                        <div v-for="(option, index) in options" v-if="index >= 23 && index <26">
+                                            <mu-checkbox :label="option[0]" v-model="selectedOptions[option[1]]" />
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <mu-checkbox label="Rankup" v-model="rankup" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <div class="well well-sm" style="padding-left:5%;padding-right:5%">
-                            <!--
-                            <mu-select-field v-model="game2" label="SELECT CARD" :maxHeight="300">
-                                <mu-menu-item v-for="option in cardList" :value="option.index" :title="option.text" :style="{color:option.color}" />
-                            </mu-select-field>-->
-                            <div style="margin-bottom:10px">
-                                <select class="form-control" v-model.number="selectedCardIndex">
-                                    <option v-for="option in cardList" :value="option.index" :style="{color:option.color}">
-                                        {{ option.text }}
-                                    </option>
-                                </select>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="well well-sm" style="padding-left:5%;padding-right:5%">
+                                <div style="margin-bottom:10px">
+                                    <select class="form-control" v-model.number="selectedCardIndex">
+                                        <option v-for="option in cardList" :value="option.index" :style="{color:option.color}">
+                                            {{ option.text }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <table class="table card-list">
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="3" style="width:30%;border:none">
+                                                <img :src="avatarSrc">
+                                            </td>
+                                            <td style="border:none">
+                                                <div class="attr-box-smile" :class="{ 'main-attr': selectedCard.attribute_id == 1}">{{ selectedCard.smile }}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none">
+                                                <div class="attr-box-pure" :class="{ 'main-attr': selectedCard.attribute_id == 2}">{{ selectedCard.pure }}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none">
+                                                <div class="attr-box-cool" :class="{ 'main-attr': selectedCard.attribute_id == 3}">{{ selectedCard.cool }}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Center Skill</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ selectedCard.centerSkillName }}</td>
+                                            <td>{{ selectedCard.centerSkillDescription }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Skill Lv</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="number" class="form-control input-sm" min="1" max="8" step="1" v-model.number="skillLv">
+                                            </td>
+                                            <td>{{ selectedCard.skillDescription }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <table class="table card-list">
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="3" style="width:30%;border:none">
-                                            <img :src="avatarSrc">
-                                        </td>
-                                        <td style="border:none">
-                                            <div class="attr-box-smile" :class="{ 'main-attr': selectedCard.attribute_id == 1}">{{ selectedCard.smile }}</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border:none">
-                                            <div class="attr-box-pure" :class="{ 'main-attr': selectedCard.attribute_id == 2}">{{ selectedCard.pure }}</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border:none">
-                                            <div class="attr-box-cool" :class="{ 'main-attr': selectedCard.attribute_id == 3}">{{ selectedCard.cool }}</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Center Skill</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ selectedCard.centerSkillName }}</td>
-                                        <td>{{ selectedCard.centerSkillDescription }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Skill Lv</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="number" class="form-control input-sm" min="1" max="8" step="1" v-model.number="skillLv">
-                                        </td>
-                                        <td>{{ selectedCard.skillDescription }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" @click="close">Dismiss</button>
+                    <button type="button" class="btn btn-primary" @click="save">Save</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <mu-flat-button @click="save" label="save" />
-                <mu-flat-button @click="close" label="dismiss" />
-            </div>
-        </mu-dialog>
+        </div>
     </div>
 </template>
 
@@ -155,9 +157,10 @@
         'mezame': null
     }
 
-    function prefix0(num) {
-        let numStr = '0000' + num;
-        return numStr.substring(numStr.length - 4);
+    const cardListPlaceHolder = {
+        'text': 'No card matches',
+        'color': '#474a4f',
+        'index': -1
     }
 
     import {
@@ -167,14 +170,18 @@
         memberTagIndex,
         japaneseAttributeIndex
     } from '../lib/indexes.js';
-    const cardListPlaceHolder = {
-        'text': 'No card matches',
-        'color': '#474a4f',
-        'index': -1
+
+    import bsn from '../lib/external/bootstrap-native.min';
+
+    function prefix0(num) {
+        let numStr = '0000' + num;
+        return numStr.substring(numStr.length - 4);
     }
+
     export default {
         data: function() {
             return {
+                modal: null,
                 unitInfo: null,
                 cardList: [],
                 open: false,
@@ -307,10 +314,10 @@
         methods: {
             save: function() {
                 this.$events.$emit('saveCard', this.selectedCard);
-                this.open = false;
+                this.modal.toggle();
             },
             close: function() {
-                this.open = false;
+                this.modal.toggle();
             },
             changeSkillLv: function() {
                 let skillInfo = this.selectedCard.originalCardInfo.skill_info;
@@ -477,8 +484,9 @@
             }
         },
         mounted: function() {
+            this.modal = new bsn.Modal(this.$refs.modal);
             this.$events.$on('openCardSelect', () => {
-                this.open = true;
+                this.modal.toggle();
             });
             this.$events.$on('getUnitInfo', unitInfo => {
                 this.unitInfo = unitInfo;
@@ -489,6 +497,10 @@
 </script>
 
 <style scoped>
+    .well {
+        margin-bottom: 0;
+    }
+    
     .main-attr {
         font-weight: bold
     }
