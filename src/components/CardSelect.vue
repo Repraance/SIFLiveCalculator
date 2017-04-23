@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                            <div class="well well-sm" style="padding-left:5%;padding-right:5%">
+                            <div class="well well-sm" style="padding-left:2%;padding-right:2%">
                                 <div style="margin-bottom:10px">
                                     <select class="form-control" v-model.number="selectedCardIndex">
                                         <option v-for="option in cardList" :value="option.index" :style="{color:option.color}">

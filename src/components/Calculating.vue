@@ -25,7 +25,7 @@
             calculate: function() {
                 this.liveCalculator.setTeam(this.team);
                 this.liveCalculator.setLiveSettingInfo(this.liveSettingInfo);
-                this.expectedScore = this.liveCalculator.calculate();
+                this.expectedScore = this.liveCalculator.calculate().toFixed(2);
             },
             getLiveNotes: function(live) {
                 if (live.liveInfo) {
@@ -49,19 +49,19 @@
                             live.liveNotes.sort(function(x, y) {
                                 return x.timing_sec - y.timing_sec;
                             })
-                            console.log(live.liveNotes);
+                            console.log(live);
                         });
                 }
-            },
-            addHoldEnding: function(live) {
-
             }
         },
         mounted: function() {
             this.$events.$on('getLiveSettingInfo', liveSettingInfo => {
                 this.liveSettingInfo = JSON.parse(JSON.stringify(liveSettingInfo));
-                console.log('Calculating received liveSettingInfo', liveSettingInfo);
-                this.getLiveNotes(this.liveSettingInfo.live1);
+                this.getLiveNotes(this.liveSettingInfo.lives[0]);
+                if (liveSettingInfo.bonusType == 2) {
+                    this.getLiveNotes(this.liveSettingInfo.lives[1]);
+                    this.getLiveNotes(this.liveSettingInfo.lives[2]);
+                }
             });
             this.$events.$on('getTeam', team => {
                 this.team = team;

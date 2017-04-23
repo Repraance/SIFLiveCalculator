@@ -3,7 +3,9 @@
         <div class="container">
             <nav class="navbar navbar-default" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#"><span class="text-center">スクフェス Live Calculator</span></a>
+                    <a class="navbar-brand" href="#">
+                        <span class="text-center">スクフェス Live Calculator</span>
+                    </a>
                 </div>
             </nav>
             <div id="app">
@@ -16,7 +18,6 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <calculating></calculating>
-
                     </div>
                 </div>
                 <card-select></card-select>

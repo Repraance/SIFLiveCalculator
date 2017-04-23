@@ -12,18 +12,17 @@ export default class {
 
     setLiveSettingInfo(liveSettingInfo) {
         this.liveSettingInfo = liveSettingInfo;
+        this.liveSettingInfo.inheritValues = {
+            'combo': 0,
+            'score': 0
+        }
     }
 
     checkLiveSettingInfo() {
         let liveSettingInfo = this.liveSettingInfo;
-        if (liveSettingInfo) {
-            if (liveSettingInfo.live1.liveInfo)
-                return true;
-            else {
-                alert('Live not set');
-                return false;
-            }
-        } else {
+        if (liveSettingInfo && liveSettingInfo.lives[0].liveInfo)
+            return true;
+        else {
             alert('Live not set');
             return false;
         }
@@ -48,13 +47,28 @@ export default class {
     calculate() {
         if (this.checkTeam() && this.checkLiveSettingInfo()) {
             if (!this.liveSettingInfo.bonusType) {
+                // No bonus type
                 let scoreUp = this.liveSettingInfo.mfScoreUpIndex == 1 ? 1.1 : false;
                 let skillUp = this.liveSettingInfo.mfSkillUpIndex == 1 ? 1.1 : false;
-                return this.calculateExpectedScore(this.liveSettingInfo.live1, scoreUp, skillUp);
-            } else if (this.liveSettingInfo.bonusType == 1)
-                return this.calculateExpectedScore(this.liveSettingInfo.live1, 1.1, 1.1);
-            else {
+                return this.calculateExpectedScore(this.liveSettingInfo.lives[0], scoreUp, skillUp);
 
+            } else if (this.liveSettingInfo.bonusType == 1)
+            // Challenge Festival
+                return this.calculateExpectedScore(this.liveSettingInfo.lives[0], 1.1, 1.1);
+            else {
+                // Medley Festival
+                let result = 0;
+                let scoreUp = [1.1, 1.1, 1.1];
+                let skillUp = [1.1, 1.1, 1.1];
+                if (this.liveSettingInfo.mfScoreUpIndex != null)
+                    scoreUp[this.liveSettingInfo.mfScoreUpIndex] *= 1.1;
+                if (this.liveSettingInfo.mfSkillUpIndex != null)
+                    skillUp[this.liveSettingInfo.mfSkillUpIndex] *= 1.1;
+                for (let i = 0; i < 3; i++) {
+                    if (this.liveSettingInfo.lives[i].liveInfo)
+                        result += this.calculateExpectedScore(this.liveSettingInfo.lives[i], scoreUp[i], skillUp[i]);
+                }
+                return result;
             }
         }
     }
@@ -126,7 +140,7 @@ export default class {
             }
         }
 
-        let currentCombo = 0;
+        let currentCombo = this.liveSettingInfo.inheritValues.combo;
         let resultCombo = 0;
         let holdCount = 0;
         let starCount = 0;
@@ -168,7 +182,7 @@ export default class {
             }
         }
         resultCombo = currentCombo;
-        console.log('attributeScore', attributeScore);
+        this.liveSettingInfo.inheritValues.combo = resultCombo;
 
         let missCount = 0;
         if (this.liveSettingInfo.notFC)
@@ -242,7 +256,7 @@ export default class {
             }
         }
         totalScore /= (1 - totalScoringUpRate);
-        return totalScore.toFixed(2);
+        return totalScore;
     }
 
 }

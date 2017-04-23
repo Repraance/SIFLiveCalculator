@@ -29,7 +29,9 @@
                         </tr>
 
                         <tr id="avatar">
-                            <th>Avatar<br><span style="font-weight: normal;font-size: 10px">Click to<br>change</span></th>
+                            <th>Avatar<br>
+                                <span style="font-weight: normal;font-size: 10px">Click to<br>change</span>
+                            </th>
                             <td v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
                                 <img v-bind:src="avatarSrc[i]" v-bind:id="'avatar-' + i" class="img-responsive" @click="openCardSelectModal(i)">
                             </td>
@@ -200,6 +202,9 @@
                         <label :for="'guest' + option[0]" class="radio-custom-label">{{ option[0] }}</label>
                         <div style="height: 2px" v-if="(index + 1) % 3 == 0"></div>
                     </div>
+                </div>
+                <div class="well well-sm guest-candidate-list" style="margin-bottom: 10px;padding-top: 0px">
+                    <h4>Candidate Card</h4>
                 </div>
             </div>
         </div>
@@ -435,12 +440,10 @@
             this.getUnitInfo();
             this.$events.$on('getLiveSettingInfo', (liveSettingInfo) => {
                 let notesWeight = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                if (liveSettingInfo.live1.liveInfo)
-                    this.addNotesWeight(notesWeight, liveSettingInfo.live1.liveInfo.notes_weight);
-                if (liveSettingInfo.live2.liveInfo)
-                    this.addNotesWeight(notesWeight, liveSettingInfo.live2.liveInfo.notes_weight);
-                if (liveSettingInfo.live3.liveInfo)
-                    this.addNotesWeight(notesWeight, liveSettingInfo.live3.liveInfo.notes_weight);
+                for (let i = 0; i < 3; i++) {
+                    if (liveSettingInfo.lives[i].liveInfo)
+                        this.addNotesWeight(notesWeight, liveSettingInfo.lives[i].liveInfo.notes_weight);
+                }
                 this.changeNotesWeight(notesWeight);
             });
             this.$events.$on('saveCard', (selectedCard) => {
@@ -485,6 +488,11 @@
         vertical-align: middle!important;
         border-top: none !important;
         padding: 4px 1px 1px 1px!important;
+    }
+    
+    .guest-candidate-list {
+        max-height: 200px;
+        overflow-y: auto
     }
     
     .form-control[readonly] {
