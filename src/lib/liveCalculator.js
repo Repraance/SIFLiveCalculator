@@ -157,7 +157,8 @@ export default class {
             }
 
             // 1 2 4 indicates single note
-            if (note.effect == 1 || note.effect == 2 || note.effect == 4) {
+            // 11 indicates single swing note
+            if (note.effect == 1 || note.effect == 2 || note.effect == 4 || note.effect == 11) {
                 let perfectScore = Math.floor(basicScore * typeFactor * ComboFactor * 1);
                 let greatScore = Math.floor(basicScore * typeFactor * ComboFactor * 0.88);
                 let noteExpectedScore = perfectRate * perfectScore + (1 - perfectRate) * greatScore;

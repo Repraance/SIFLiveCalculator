@@ -23,6 +23,11 @@
                 <card-select></card-select>
             </div>
         </div>
+        <footer class="text-center">
+            2017 Repraance.
+            <br> Help contribute or fork on <a href="https://github.com/Repraance/SIFLiveCalculator">Github</a>
+            <br>The developer of the site does not claim ownership of any content on this page.
+        </footer>
     </div>
 
 </template>
