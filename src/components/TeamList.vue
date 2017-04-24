@@ -174,32 +174,28 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <div class="well well-sm">
-                <div class="well well-sm" style="margin-bottom: 10px">
-                    <input id="guest" class="checkbox-custom" type="checkbox" v-model="team.guestInfo.guestEnabled">
-                    <label for="guest" class="checkbox-custom-label">Add guest</label>
+                <div class="well well-sm" style="margin-bottom: 10px;line-height:0">
+                    <mu-checkbox label="Add guest" v-model="team.guestInfo.guestEnabled"></mu-checkbox>
                 </div>
-                <div class="well well-sm" style="margin-bottom: 10px;padding-top: 0px">
+                <div class="well well-sm guest-option-box">
                     <h4>Guest Center Skill</h4>
                     <h5>Team {{ teamDefaultAttribute }} attribute up by 9% or 12% of</h5>
 
                     <div v-for="(option, index) in guestOptions" v-if="index >= 11" style="display: inline">
-                        <input :value="option[1]" class="radio-custom" type="radio" :id="'guest' + option[0]" v-model="team.guestInfo.effectType" :disabled="!team.guestInfo.guestEnabled">
-                        <label :for="'guest' + option[0]" class="radio-custom-label" :style="{color: option[2]}">{{ option[0] }}</label>
+                        <mu-radio :label="option[0]" :nativeValue="option[1]" v-model="team.guestInfo.effectType" :disabled="!team.guestInfo.guestEnabled" :style="{color: option[2]}" style="text-transform: capitalize"></mu-radio>
                     </div>
 
                 </div>
-                <div class="well well-sm" style="margin-bottom: 10px;padding-top: 0px">
+                <div class="well well-sm guest-option-box">
                     <h4>Guest Center Extra Skill</h4>
                     <h5>Team {{ teamDefaultAttribute }} attribute up by 3% of</h5>
                     <div v-for="(option, index) in guestOptions" v-if="index >= 9 && index <= 10" style="display: inline">
-                        <input :value="option[1]" class="radio-custom" type="radio" :id="'guest' + option[0]" v-model="team.guestInfo.extraEffectType" :disabled="!team.guestInfo.guestEnabled">
-                        <label :for="'guest' + option[0]" class="radio-custom-label">{{ option[0] }}</label>
+                        <mu-radio :label="option[0]" :nativeValue="option[1]" v-model="team.guestInfo.extraEffectType" :disabled="!team.guestInfo.guestEnabled"></mu-radio>
                     </div>
                     <hr>
                     <h5>Team {{ teamDefaultAttribute }} attribute up by 6% of</h5>
                     <div v-for="(option, index) in guestOptions" v-if="index < 9" style="display: inline">
-                        <input :value="option[1]" class="radio-custom" type="radio" :id="'guest' + option[0]" v-model="team.guestInfo.extraEffectType" :disabled="!team.guestInfo.guestEnabled">
-                        <label :for="'guest' + option[0]" class="radio-custom-label">{{ option[0] }}</label>
+                        <mu-radio :label="option[0]" :nativeValue="option[1]" v-model="team.guestInfo.extraEffectType" :disabled="!team.guestInfo.guestEnabled"></mu-radio>
                         <div style="height: 2px" v-if="(index + 1) % 3 == 0"></div>
                     </div>
                 </div>
@@ -224,6 +220,10 @@
     } from '../lib/misc.js';
 
     import Team from '../lib/team.js';
+
+    function cap(word) {
+        word
+    }
 
     export default {
         name: 'team-list',
@@ -336,8 +336,18 @@
                         centerSkillDescription += ' + ' + extraCenterSkillDescription;
                     }
                     this.teamDefaultAttribute = this.team.memberInfo[4].attribute;
+                    let attributeId = this.team.memberInfo[4].attribute_id;
+                    for (let i = 1; i <= 3; i++) {
+                        if (i == attributeId)
+                            this.guestOptions[10 + i][0] = attributeIndex[i] + ' 9%';
+                        else
+                            this.guestOptions[10 + i][0] = attributeIndex[i] + ' 12%';
+                    }
                 } else {
                     this.teamDefaultAttribute = 'default';
+                    this.guestOptions[11][0] = 'Smile';
+                    this.guestOptions[12][0] = 'Pure';
+                    this.guestOptions[13][0] = 'Cool';
                 }
                 this.centerSkill = centerSkillDescription;
             }
@@ -455,7 +465,8 @@
 
 <style scoped>
     hr {
-        margin: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
     
     h5 {
@@ -464,7 +475,9 @@
     }
     
     .guest-option-box {
-        margin-top: 4px;
+        margin-bottom: 10px;
+        padding-top: 0px;
+        line-height: 0;
     }
     
     #file-input-addon {

@@ -62,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="well well-sm" style="margin-bottom:9px;padding-bottom:1px">
+                    <div class="well well-sm" style="margin-bottom:9px;padding-bottom:2px">
                         <div style="line-height: 0">
                             <mu-radio label="Challenge Festival" nativeValue="1" v-model.number="liveSettingInfo.bonusType"></mu-radio>
                             <mu-radio title="And you could choose random guest bonus above the live list" label="Medley Festival" nativeValue="2" v-model.number="liveSettingInfo.bonusType"></mu-radio>
@@ -414,7 +414,7 @@
     }
     
     hr {
-        margin-top: 0;
+        margin-top: 1px;
         margin-bottom: 5px;
     }
     

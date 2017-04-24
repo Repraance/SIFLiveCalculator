@@ -48,8 +48,8 @@ export default class {
         if (this.checkTeam() && this.checkLiveSettingInfo()) {
             if (!this.liveSettingInfo.bonusType) {
                 // No bonus type
-                let scoreUp = this.liveSettingInfo.mfScoreUpIndex == 1 ? 1.1 : false;
-                let skillUp = this.liveSettingInfo.mfSkillUpIndex == 1 ? 1.1 : false;
+                let scoreUp = this.liveSettingInfo.mfScoreUpIndex == 0 ? 1.1 : false;
+                let skillUp = this.liveSettingInfo.mfSkillUpIndex == 0 ? 1.1 : false;
                 return this.calculateExpectedScore(this.liveSettingInfo.lives[0], scoreUp, skillUp);
 
             } else if (this.liveSettingInfo.bonusType == 1)
