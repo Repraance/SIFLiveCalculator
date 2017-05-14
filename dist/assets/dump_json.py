@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # coding=utf-8
 
 import os
@@ -5,6 +6,8 @@ import urllib.request
 from collections import OrderedDict
 import sqlite3
 import json
+
+json_path = './json'
 
 
 def get_db():
@@ -24,12 +27,12 @@ def get_db():
 
 def generate_unit_json():
     unit_m_field = ('unit_number', 'unit_type_id', 'eponym', 'name', 'rarity', 'attribute_id', 'default_unit_skill_id',
-                'default_leader_skill_id', 'before_love_max', 'after_love_max',
-                'before_level_max', 'after_level_max',
-                'default_removable_skill_capacity', 'max_removable_skill_capacity',
-                'disable_rank_up', 'unit_level_up_pattern_id',
-                'hp_max', 'smile_max', 'pure_max', 'cool_max',
-                'hp_diff', 'smile_diff', 'pure_diff', 'cool_diff')
+                    'default_leader_skill_id', 'before_love_max', 'after_love_max',
+                    'before_level_max', 'after_level_max',
+                    'default_removable_skill_capacity', 'max_removable_skill_capacity',
+                    'disable_rank_up', 'unit_level_up_pattern_id',
+                    'hp_max', 'smile_max', 'pure_max', 'cool_max',
+                    'hp_diff', 'smile_diff', 'pure_diff', 'cool_diff')
 
     sql_live_unit_m = '''
         SELECT unit_number, unit_type_id, eponym, name, rarity, attribute_id, default_unit_skill_id,
@@ -48,7 +51,6 @@ def generate_unit_json():
     '''
     leader_skill_field = ('name', 'description', 'leader_skill_effect_type', 'effect_value')
 
-
     sql_leader_extra_skill = '''
         SELECT member_tag_id, leader_skill_effect_type, effect_value
         FROM unit_leader_skill_extra_m
@@ -64,8 +66,7 @@ def generate_unit_json():
     '''
 
     skill_field = ('name', 'skill_effect_type', 'discharge_type', 'trigger_type',
-                'description', 'effect_value', 'discharge_time', 'trigger_value', 'activation_rate')
-
+                   'description', 'effect_value', 'discharge_time', 'trigger_value', 'activation_rate')
 
     sql_member_tag = '''
         SELECT member_tag_id
@@ -135,7 +136,7 @@ def generate_unit_json():
     curs.close()
     print('Unit count: ', len(unit))
 
-    with open('../../dist/assets/json/unit.json', 'w') as fp:
+    with open(json_path + '/unit/unit.json', 'w') as fp:
         json.dump(unit, fp)
         print('unit.json successfully generated.')
 
@@ -192,14 +193,14 @@ def generate_live_setting_json():
     get_live_maps(live_setting)
     print('Live count: ', len(live_setting))
 
-    with open('../../dist/assets/json/maps/live_setting.json', 'w') as fp:
+    with open(json_path + '/maps/live_setting.json', 'w') as fp:
         json.dump(live_setting, fp)
         print('live_setting.json successfully generated.')
 
 
 def get_live_maps(all_live_setting):
     url_common = 'https://rawfile.loveliv.es/livejson/'
-    path_common = '../../dist/assets/json/maps/latest/'
+    path_common = json_path + '/maps/latest/'
     for live in all_live_setting:
         file_name = live['notes_setting_asset']
         if not os.path.exists(path_common + file_name):
@@ -211,7 +212,6 @@ def get_live_maps(all_live_setting):
             live['notes_weight'] = get_notes_weight(notes)
             print(file_name + ' notes weight successfully generated')
 
-
 def get_notes_weight(notes_setting):
     weight = [0] * 9
     for note in notes_setting:
@@ -222,7 +222,21 @@ def get_notes_weight(notes_setting):
             weight[position] += 1
     return weight
 
+
+def init_dir():
+    if not os.path.exists(json_path):
+        os.mkdir(json_path)
+
+    if not os.path.exists(json_path + '/unit'):
+        os.mkdir(json_path + '/unit')
+
+    if not os.path.exists(json_path + '/maps'):
+        os.mkdir(json_path + '/maps')
+
+    if not os.path.exists(json_path + '/maps/latest'):
+        os.mkdir(json_path + '/maps/latest')
 if __name__ == '__main__':
     get_db()
+    init_dir()
     generate_unit_json()
     generate_live_setting_json()

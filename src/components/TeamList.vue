@@ -300,7 +300,7 @@
                 this.$events.$emit('openCardSelect');
             },
             getUnitInfo: function() {
-                this.$http.get('assets/json/unit.json').then(
+                this.$http.get('assets/json/unit/unit.json').then(
                     (response) => {
                         this.unitInfo = response.body;
                         this.$events.$emit('getUnitInfo', this.unitInfo);

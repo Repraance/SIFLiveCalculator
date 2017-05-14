@@ -3,5 +3,9 @@ node_modules/
 !dist/
 dist/*
 !dist/assets/
+dist/assets/*
+!dist/assets/dump_json.py
+!dist/assets/update.bat
+!dist/assets/update.sh
 npm-debug.l
 yarn-error.log
