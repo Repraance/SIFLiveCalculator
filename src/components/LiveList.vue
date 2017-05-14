@@ -56,7 +56,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                             <div class="input-group">
                                 <span class="input-group-addon" id="max-combo-addon">
-                                    <mu-checkbox label="Not full combo" v-model="liveSettingInfo.notFC"></mu-checkbox>
+                                    <mu-checkbox label="Not Full Combo" v-model="liveSettingInfo.notFC"></mu-checkbox>
                                 </span>
                                 <input type="number" class="form-control" placeholder="Max Combo" v-model.number="liveSettingInfo.maxCombo" aria-describedby="max-combo-addon" :disabled="!liveSettingInfo.notFC" :max="totalCombo" min="1">
                             </div>
