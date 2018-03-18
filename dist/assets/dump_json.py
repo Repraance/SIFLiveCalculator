@@ -205,12 +205,16 @@ def get_live_maps(all_live_setting):
         file_name = live['notes_setting_asset']
         if not os.path.exists(path_common + file_name):
             url = url_common + file_name
-            urllib.request.urlretrieve(url, path_common + file_name)
+            try:
+                urllib.request.urlretrieve(url, path_common + file_name)
+            except:
+                print(live)
             print(file_name + ' successfully downloaded.')
         with open(path_common + file_name) as fp:
             notes = json.load(fp)
             live['notes_weight'] = get_notes_weight(notes)
             print(file_name + ' notes weight successfully generated')
+
 
 def get_notes_weight(notes_setting):
     weight = [0] * 9
@@ -235,6 +239,8 @@ def init_dir():
 
     if not os.path.exists(json_path + '/maps/latest'):
         os.mkdir(json_path + '/maps/latest')
+
+
 if __name__ == '__main__':
     get_db()
     init_dir()

@@ -337,14 +337,14 @@
                     this.selectedCard.pure = originalCardInfo.pure_max;
                     this.selectedCard.cool = originalCardInfo.cool_max;
                     this.selectedCard[this.selectedCard.attribute] += originalCardInfo.after_love_max;
-                    this.avatarSrc = 'assets/image/card/icon/' + 'rankup/' + String(this.selectedCard.cardid) + '.png'
+                    this.avatarSrc = 'https://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/' + 'rankup/' + String(this.selectedCard.cardid) + '.png'
                 } else {
                     this.selectedCard.mezame = 0;
                     this.selectedCard.smile = originalCardInfo.smile;
                     this.selectedCard.pure = originalCardInfo.pure;
                     this.selectedCard.cool = originalCardInfo.cool;
                     this.selectedCard[this.selectedCard.attribute] += originalCardInfo.before_love_max;
-                    this.avatarSrc = 'assets/image/card/icon/' + 'normal/' + String(this.selectedCard.cardid) + '.png'
+                    this.avatarSrc = 'https://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/' + 'normal/' + String(this.selectedCard.cardid) + '.png'
                 }
             }
         },

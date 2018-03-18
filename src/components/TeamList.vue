@@ -416,9 +416,9 @@
                 for (let i = 0; i < 9; i++) {
                     if (this.team.memberInfo[i].cardid) {
                         if (this.team.memberInfo[i].mezame) {
-                            src.push('assets/image/card/icon/' + 'rankup/' + String(this.team.memberInfo[i].cardid) + '.png');
+                            src.push('https://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/' + 'rankup/' + String(this.team.memberInfo[i].cardid) + '.png');
                         } else {
-                            src.push('assets/image/card/icon/' + 'normal/' + String(this.team.memberInfo[i].cardid) + '.png');
+                            src.push('https://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/' + 'normal/' + String(this.team.memberInfo[i].cardid) + '.png');
                         }
                     } else {
                         src.push('assets/image/placeHolder.png');
